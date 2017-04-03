@@ -2,7 +2,7 @@
   "name": "healthcare-system",
   "version": "0.0.0",
   "description": "Hospital management software",
-  "main": "src/index.js",
+  "main": "src/index.jsx",
   "scripts": {
     "start": "webpack-dev-server --env=dev",
     "build": "webpack --env=prod",
