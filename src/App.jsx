@@ -4,7 +4,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 import healthApp from 'redux/reducers.js';
-import appRoute from './app-route.js';
+import appRoute from './app-route.jsx';
 
 // store holds the redux store that allows app-wide state to be shared
 const store = createStore(healthApp);
