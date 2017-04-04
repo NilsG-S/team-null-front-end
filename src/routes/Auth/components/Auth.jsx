@@ -4,8 +4,7 @@ import Box from 'grommet/components/Box';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 
-import LoginContainer from './components/LoginContainer.jsx';
-import RegisterContainer from './components/RegisterContainer.jsx';
+import LoginContainer from './LoginContainer.jsx';
 
 class Auth extends React.Component {
   constructor(props) {
@@ -38,9 +37,6 @@ class Auth extends React.Component {
         >
           <Tab title='Login'>
             <LoginContainer />
-          </Tab>
-          <Tab title='Register'>
-            <RegisterContainer />
           </Tab>
         </Tabs>
       </Box>
