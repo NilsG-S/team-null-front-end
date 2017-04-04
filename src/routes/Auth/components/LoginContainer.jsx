@@ -33,11 +33,6 @@ class LoginContainer extends React.Component {
       .then(() => {
         logger.info('User was logged in');
         this.props.router.push('/main');
-
-        this.setState({
-          logErr: '',
-          waiting: false,
-        });
       })
       .catch((e) => {
         logger.error(e.message);
