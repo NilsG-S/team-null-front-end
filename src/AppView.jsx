@@ -8,7 +8,8 @@ class AppView extends React.Component {
     return (
       <App
         centered={false}
-        inline={false}>
+        inline={false}
+      >
         <Box full={true}>
           {this.props.children}
         </Box>
