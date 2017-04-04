@@ -9,7 +9,7 @@ const appRoute = (
   // Sets the path and primary component for this route
   <Route path='/' component={AppView}>
     {/* Load the login page by default */}
-    <IndexRedirect to='login' />
+    <IndexRedirect to='auth' />
 
     {/* Set the children of the primary component */}
     {authRoute}
