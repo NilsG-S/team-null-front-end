@@ -4,6 +4,9 @@ import Box from 'grommet/components/Box';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 
+import LoginContainer from './components/LoginContainer.jsx';
+import RegisterContainer from './components/RegisterContainer.jsx';
+
 class Auth extends React.Component {
   constructor(props) {
     super(props);
@@ -34,8 +37,10 @@ class Auth extends React.Component {
           onActive={this.handleTabChange}
         >
           <Tab title='Login'>
+            <LoginContainer />
           </Tab>
           <Tab title='Register'>
+            <RegisterContainer />
           </Tab>
         </Tabs>
       </Box>
