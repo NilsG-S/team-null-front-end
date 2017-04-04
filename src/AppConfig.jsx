@@ -9,7 +9,7 @@ import appRoute from './app-route.jsx';
 // store holds the redux store that allows app-wide state to be shared
 const store = createStore(healthApp);
 
-const App = () => (
+const AppConfig = () => (
   // Provider shares store with components joined by connect()
   <Provider store={store}>
     <Router history={hashHistory} routes={appRoute} />
@@ -17,4 +17,4 @@ const App = () => (
 );
 
 export { store };
-export default App;
+export default AppConfig;
