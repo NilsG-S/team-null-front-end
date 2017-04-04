@@ -24,7 +24,7 @@ function NavBar(props) {
       >
         <Anchor
           method='push'
-          path='calendar'
+          path='/main/calendar'
         >
           Calendar
         </Anchor>
@@ -55,7 +55,7 @@ function NavBar(props) {
         >
           <Anchor
             method='push'
-            path='settings'
+            path='/main/settings'
           >
             Settings
           </Anchor>

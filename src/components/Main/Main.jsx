@@ -13,8 +13,4 @@ function Main(props) {
   );
 }
 
-Main.propTypes = {
-  children: React.PropTypes.element.isRequired,
-};
-
 export default Main;
