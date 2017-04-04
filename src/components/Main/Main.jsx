@@ -1,19 +1,20 @@
 import React from 'react';
 
-import App from 'grommet/components/App';
 import Box from 'grommet/components/Box';
 
-import NavBarContainer from 'components/NavBar/NavBarContainer.js';
+import NavBarContainer from 'components/NavBar/NavBarContainer.jsx';
 
-class Main extends React.Component {
-  render() {
-    return (
-      <Box>
-        <NavBarContainer/>
-        {this.props.children}
-      </Box>
-    );
-  }
+function Main(props) {
+  return (
+    <Box>
+      <NavBarContainer />
+      {props.children}
+    </Box>
+  );
 }
+
+Main.propTypes = {
+  children: React.PropTypes.element.isRequired,
+};
 
 export default Main;
