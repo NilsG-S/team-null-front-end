@@ -1,0 +1,29 @@
+# General
+.DS_STORE
+*~
+
+### Node ###
+
+# Logs
+*.log
+
+# Bundled files
+build/*bundle.js
+build/*.map
+
+# Dependencies
+node_modules
+
+### IDEs and Editors ###
+
+# JetBrains
+.idea
+*.iml
+*.iws
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# VS Code
+.vscode
