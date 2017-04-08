@@ -3,7 +3,7 @@ import React from 'react';
 import Box from 'grommet/components/Box';
 
 import NavBarContainer from 'components/NavBar/NavBarContainer.jsx';
-import requireAuth from '../RequireAuth.js';
+import requireAuth from 'utilities/RequireAuth.js';
 
 class Main extends React.Component {
   render() {
