@@ -8,6 +8,8 @@ import MenuIcon from 'grommet/components/icons/base/Menu';
 import UserIcon from 'grommet/components/icons/base/User';
 import Anchor from 'grommet/components/Anchor';
 
+import RouterAnchor from 'utilities/RouterAnchor.jsx';
+
 function NavBar(props) {
   return (
     <Header
@@ -22,12 +24,9 @@ function NavBar(props) {
         icon={<MenuIcon />}
         dropAlign={{ left: 'left', top: 'top' }}
       >
-        <Anchor
-          method='push'
-          path='/main/calendar'
-        >
+        <RouterAnchor path='/calendar'>
           Calendar
-        </Anchor>
+        </RouterAnchor>
       </Menu>
       <Title>
         HealthCare System
@@ -53,12 +52,6 @@ function NavBar(props) {
             </Box>
           }
         >
-          <Anchor
-            method='push'
-            path='/main/settings'
-          >
-            Settings
-          </Anchor>
           <Anchor onClick={props.logout}>
             Logout
           </Anchor>

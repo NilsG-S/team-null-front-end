@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as server from 'server';
@@ -16,7 +16,7 @@ class NavBarContainer extends React.Component {
   logout() {
     server.signOut().then(() => {
       logger.info('User was signed out');
-      this.props.router.push('/');
+      this.props.history.push('/');
     });
   }
 
@@ -32,7 +32,7 @@ class NavBarContainer extends React.Component {
 
 NavBarContainer.propTypes = {
   first_name: React.PropTypes.string.isRequired,
-  router: React.PropTypes.shape({
+  history: React.PropTypes.shape({
     push: React.PropTypes.func.isRequired,
   }).isRequired,
 };
