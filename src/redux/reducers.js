@@ -1,11 +1,11 @@
-import { UserActionTypes, guest } from './actions.js';
+import { UserActionTypes, employee } from './actions.js';
 
-function user(state = guest, action) {
+function user(state = employee, action) {
   switch (action.type) {
     case UserActionTypes.UPDATE:
       return action.user;
     case UserActionTypes.LOGOUT:
-      return guest;
+      return employee;
     default:
       return state;
   }
