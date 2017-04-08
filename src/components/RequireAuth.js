@@ -3,21 +3,16 @@ import { withRouter } from 'react-router';
 
 function requireAuth(WrappedComponent, requiredTypes) {
   class AuthWrapper extends WrappedComponent {
-    render() {
-      const authorized = requiredTypes
-        .find(type => this.props.user.type === type);
+    componentWillMount() {
+      const authorized = requiredTypes[this.props.user.type]
 
-      // Depnding on whether the user has the required type
-      let output = null;
-
-      if (authorized === true) {
-        // Render the component
-        output = super.render();
-      } else {
+      if (authorized !== true) {
         this.props.router.push('/');
       }
+    }
 
-      return output;
+    render() {
+      return super.render();
     }
   }
 
