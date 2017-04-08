@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Box from 'grommet/components/Box';
 import Tabs from 'grommet/components/Tabs';
@@ -26,7 +27,7 @@ class Auth extends React.Component {
 
   render() {
     let output = null;
-    switch (user.type) {
+    switch (this.props.user.type) {
       case AuthStates.GUEST:
         output = (
           <Box
@@ -46,6 +47,8 @@ class Auth extends React.Component {
             </Tabs>
           </Box>
         );
+
+        break;
       default:
         output = (
           <Redirect to="/calendar" />
