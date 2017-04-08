@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-function protectRoute({ required, WrappedComponent }) {
+function protectRoute(WrappedComponent, required) {
   class ProtectedWrapper extends WrappedComponent {
     render() {
       const authorized = required[this.props.type];
