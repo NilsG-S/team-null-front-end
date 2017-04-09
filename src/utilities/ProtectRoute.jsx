@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-function protectRoute(WrappedComponent, required) {
-  class ProtectedWrapper extends WrappedComponent {
+function protectRoute(Component, required) {
+  class ProtectedWrapper extends React.Component {
     render() {
       const authorized = required[this.props.type];
       let output = null;
 
       if (authorized) {
-        output = super.render();
+        output = (<Component />);
       } else {
         output = (<Redirect to='/auth' />);
       }
