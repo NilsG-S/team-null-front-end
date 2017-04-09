@@ -7,7 +7,7 @@ function RouterAnchor({ history, path, ...rest }) {
   const properties = rest;
   let clickFunction = null;
 
-  if (path === rest.location.pathname) {
+  if (path === history.location.pathname) {
     clickFunction = () => {};
   } else {
     clickFunction = () => history.push(path);
@@ -23,6 +23,9 @@ function RouterAnchor({ history, path, ...rest }) {
 RouterAnchor.propTypes = {
   history: React.PropTypes.shape({
     push: React.PropTypes.func.isRequired,
+    location: React.PropTypes.shape({
+      pathname: React.PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
   path: React.PropTypes.string.isRequired,
 };
