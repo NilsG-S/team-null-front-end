@@ -11,6 +11,44 @@ import protectRoute from 'utilities/ProtectRoute.jsx';
 import Month from './Month.jsx';
 
 class Calendar extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const current = new Date();
+    this.date = new Date(current.getFullYear(), current.getMonth(), 1);
+    this.monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long' });
+
+    this.state = {
+      month: this.monthFormatter.format(this.date),
+      year: this.date.getFullYear(),
+    };
+
+    this.backHandler = this.backHandler.bind(this);
+    this.nextHandler = this.nextHandler.bind(this);
+  }
+
+  backHandler() {
+    let current = this.date.getMonth();
+    current -= 1;
+    this.date.setMonth(current);
+
+    this.setState({
+      month: this.monthFormatter.format(this.date),
+      year: this.date.getFullYear(),
+    });
+  }
+
+  nextHandler() {
+    let current = this.date.getMonth();
+    current += 1;
+    this.date.setMonth(current);
+
+    this.setState({
+      month: this.monthFormatter.format(this.date),
+      year: this.date.getFullYear(),
+    });
+  }
+
   render() {
     return (
       <Box full>
@@ -21,7 +59,10 @@ class Calendar extends React.Component {
           responsive={false}
           alignContent='between'
         >
-          <Button icon={<CaretBack />} />
+          <Button
+            icon={<CaretBack />}
+            onClick={this.backHandler}
+          />
           <Box
             flex
             direction='row'
@@ -29,10 +70,13 @@ class Calendar extends React.Component {
             justify='center'
           >
             <Title>
-              Month
+              {this.state.month} {this.state.year}
             </Title>
           </Box>
-          <Button icon={<CaretNext />} />
+          <Button
+            icon={<CaretNext />}
+            onClick={this.nextHandler}
+          />
         </Header>
         <Box
           id='routes-calendar-components-calendar-box-1'
