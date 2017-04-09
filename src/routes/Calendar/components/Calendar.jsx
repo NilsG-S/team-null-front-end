@@ -1,77 +1,47 @@
 import React from 'react';
 
 import Box from 'grommet/components/Box';
+import Header from 'grommet/components/Header';
+import Button from 'grommet/components/Button';
+import CaretBack from 'grommet/components/icons/base/CaretBack';
+import CaretNext from 'grommet/components/icons/base/CaretNext';
+import Title from 'grommet/components/Title';
 
 import protectRoute from 'utilities/ProtectRoute.jsx';
+import Month from './Month.jsx';
 
 class Calendar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      size: 500
-    };
-
-    this.resizeCalendar = this.resizeCalendar.bind(this);
-  }
-
-  resizeCalendar() {
-    const element = document.getElementById(
-      'routes-calendar-components-calendar-div-1'
-    );
-    const newHeight = element.parentElement.clientHeight;
-    const newWidth = element.parentElement.clientWidth;
-    let newSize;
-
-    if (newWidth > newHeight) {
-      newSize = newHeight;
-    } else {
-      newSize = newWidth;
-    }
-
-    this.setState({
-      size: newSize
-    });
-  }
-
-  componentDidMount() {
-    this.resizeCalendar();
-    window.addEventListener('resize', this.resizeCalendar);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resizeCalendar);
-  }
-
   render() {
-    let main = {
-      height: '100%',
-      width: '100%',
-    };
-
-    let style = {
-      height: this.state.size,
-      width: this.state.size,
-      display: 'flex',
-      flexDirection: 'column',
-    };
-
-    let style2 = {
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-    };
-
     return (
-      <Box flex align='center' justify='center'>
-        <div id='routes-calendar-components-calendar-div-1' style={style}>
-          <div style={style2}>
-            <h2>Calendar</h2>
-          </div>
-          <div style={style2}>
-            <h2>Calendar</h2>
-          </div>
-        </div>
+      <Box full>
+        <Header
+          size='small'
+          flex
+          direction='row'
+          responsive={false}
+          alignContent='between'
+        >
+          <Button icon={<CaretBack />} />
+          <Box
+            flex
+            direction='row'
+            responsive={false}
+            justify='center'
+          >
+            <Title>
+              Month
+            </Title>
+          </Box>
+          <Button icon={<CaretNext />} />
+        </Header>
+        <Box
+          id='routes-calendar-components-calendar-box-1'
+          flex
+          align='center'
+          justify='center'
+        >
+          <Month />
+        </Box>
       </Box>
     );
   }
