@@ -24,6 +24,7 @@ class NavBarContainer extends React.Component {
     return (
       <NavBar
         first_name={this.props.first_name}
+        type={this.props.type}
         logout={this.logout}
       />
     );
@@ -32,20 +33,26 @@ class NavBarContainer extends React.Component {
 
 NavBarContainer.propTypes = {
   first_name: React.PropTypes.string.isRequired,
+  type: React.PropTypes.number.isRequired,
   history: React.PropTypes.shape({
     push: React.PropTypes.func.isRequired,
   }).isRequired,
 };
 
-// Used by mapStateToProps to get the current user from the redux store
+// Used by mapStateToProps to get user.first_name from the redux store
 function getFirstName(user) {
   return user.first_name;
+}
+
+function getType(user) {
+  return user.type;
 }
 
 // Used by connect to map user to this.props.user
 function mapStateToProps(state) {
   return {
     first_name: getFirstName(state.user),
+    type: getType(state.user),
   };
 }
 
