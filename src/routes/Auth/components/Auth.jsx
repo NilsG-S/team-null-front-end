@@ -49,6 +49,12 @@ class Auth extends React.Component {
         );
 
         break;
+      case AuthStates.CEO:
+        output = (
+          <Redirect to="/reports" />
+        );
+
+        break;
       default:
         output = (
           <Redirect to="/calendar" />
