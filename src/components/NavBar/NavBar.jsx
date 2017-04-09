@@ -8,8 +8,29 @@ import MenuIcon from 'grommet/components/icons/base/Menu';
 import UserIcon from 'grommet/components/icons/base/User';
 import Anchor from 'grommet/components/Anchor';
 
+import RouterAnchor from 'utilities/RouterAnchor.jsx';
+import { AuthStates } from 'redux/actions.js';
+
 function NavBar(props) {
-  return (
+  let nav;
+  switch (props.type) {
+    case AuthStates.CEO:
+      nav = null;
+      break;
+    default:
+      nav = (
+        <Menu
+          icon={<MenuIcon />}
+          dropAlign={{ left: 'left', top: 'top' }}
+        >
+          <RouterAnchor path='/calendar'>
+            Calendar
+          </RouterAnchor>
+        </Menu>
+      );
+  }
+
+  let bar = (
     <Header
       fixed
       size='medium'
@@ -18,17 +39,7 @@ function NavBar(props) {
       responsive={false}
       pad={{ horizontal: 'small' }}
     >
-      <Menu
-        icon={<MenuIcon />}
-        dropAlign={{ left: 'left', top: 'top' }}
-      >
-        <Anchor
-          method='push'
-          path='/main/calendar'
-        >
-          Calendar
-        </Anchor>
-      </Menu>
+      {nav}
       <Title>
         HealthCare System
       </Title>
@@ -53,12 +64,6 @@ function NavBar(props) {
             </Box>
           }
         >
-          <Anchor
-            method='push'
-            path='/main/settings'
-          >
-            Settings
-          </Anchor>
           <Anchor onClick={props.logout}>
             Logout
           </Anchor>
@@ -66,11 +71,18 @@ function NavBar(props) {
       </Box>
     </Header>
   );
+
+  if (props.type === AuthStates.GUEST) {
+    bar = null;
+  }
+
+  return bar;
 }
 
 
 NavBar.propTypes = {
   first_name: React.PropTypes.string.isRequired,
+  type: React.PropTypes.number.isRequired,
   logout: React.PropTypes.func.isRequired,
 };
 

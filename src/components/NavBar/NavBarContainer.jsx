@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as server from 'server';
@@ -16,7 +16,7 @@ class NavBarContainer extends React.Component {
   logout() {
     server.signOut().then(() => {
       logger.info('User was signed out');
-      this.props.router.push('/');
+      this.props.history.push('/');
     });
   }
 
@@ -24,6 +24,7 @@ class NavBarContainer extends React.Component {
     return (
       <NavBar
         first_name={this.props.first_name}
+        type={this.props.type}
         logout={this.logout}
       />
     );
@@ -32,20 +33,26 @@ class NavBarContainer extends React.Component {
 
 NavBarContainer.propTypes = {
   first_name: React.PropTypes.string.isRequired,
-  router: React.PropTypes.shape({
+  type: React.PropTypes.number.isRequired,
+  history: React.PropTypes.shape({
     push: React.PropTypes.func.isRequired,
   }).isRequired,
 };
 
-// Used by mapStateToProps to get the current user from the redux store
+// Used by mapStateToProps to get user.first_name from the redux store
 function getFirstName(user) {
   return user.first_name;
+}
+
+function getType(user) {
+  return user.type;
 }
 
 // Used by connect to map user to this.props.user
 function mapStateToProps(state) {
   return {
     first_name: getFirstName(state.user),
+    type: getType(state.user),
   };
 }
 

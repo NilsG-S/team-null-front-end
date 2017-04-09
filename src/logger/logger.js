@@ -1,23 +1,22 @@
 import bunyan from 'bunyan';
 
-// Checks current build environment
-var envLevel = null;
-switch(ENV) {
-  case 'prod':
-    envLevel = 'fatal';
-    break;
-  case 'dev':
-    envLevel = 'debug';
-    break;
-  default:
-    envLevel = 'debug';
-}
-
-var logger = bunyan.createLogger({
+let config = {
   name: 'CPCEED',
   stream: process.stdout,
-  // Sets the logging level depending on build environment
-  level: envLevel
-});
+};
+
+// Checks current build environment
+switch(ENV) {
+  case 'prod':
+    config.level = 'fatal';
+    break;
+  case 'dev':
+    config.level = 'debug';
+    break;
+  default:
+    config.level = 'debug';
+}
+
+var logger = bunyan.createLogger(config);
 
 export default logger;

@@ -1,6 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { connect } from 'react-redux';
 
 import * as server from 'server';
 import logger from 'logger/logger.js';
@@ -32,7 +30,6 @@ class LoginContainer extends React.Component {
     server.signIn(id, password)
       .then(() => {
         logger.info('User was logged in');
-        this.props.router.push('/main');
       })
       .catch((e) => {
         logger.error(e.message);
@@ -54,10 +51,4 @@ class LoginContainer extends React.Component {
   }
 }
 
-LoginContainer.propTypes = {
-  router: React.PropTypes.shape({
-    push: React.PropTypes.func.isRequired,
-  }).isRequired,
-};
-
-export default connect()(withRouter(LoginContainer));
+export default LoginContainer;

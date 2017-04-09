@@ -14,10 +14,6 @@ export const AuthStates = {
   CEO: 4,
 };
 
-export const guest = {
-  type: AuthStates.GUEST,
-};
-
 export const employee = {
   employee_id: 0,
   first_name: '',
