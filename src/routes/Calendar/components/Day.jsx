@@ -1,6 +1,28 @@
 import React from 'react';
 
 class Day extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      boxShadow: '0px 0px 3px rgba(0, 0, 0, 0)',
+    };
+
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+  }
+
+  handleMouseLeave() {
+    this.setState({
+      boxShadow: '0px 0px 3px rgba(0, 0, 0, 0)',
+    });
+  }
+
+  handleMouseEnter() {
+    this.setState({
+      boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.4)',
+    });
+  }
+
   render() {
     const style = {
       flex: 1,
@@ -18,10 +40,16 @@ class Day extends React.Component {
         this.props.date.getDay() === 6) {
       style.backgroundColor = '#865cd6';
       textStyle.color = '#FFFFFF';
+    } else {
+      style.boxShadow = this.state.boxShadow;
     }
 
     return (
-      <div style={style}>
+      <div
+        style={style}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      >
         <h3 style={textStyle}>{this.props.date.getDate()}</h3>
       </div>
     );
