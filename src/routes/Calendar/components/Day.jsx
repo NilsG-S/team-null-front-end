@@ -17,4 +17,10 @@ class Day extends React.Component {
   }
 }
 
+Day.propTypes = {
+  date: React.PropTypes.shape({
+    getDate: React.PropTypes.func.isRequired,
+  }).isRequired,
+};
+
 export default Day;

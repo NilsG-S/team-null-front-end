@@ -4,7 +4,7 @@ import Day from './Day.jsx';
 
 class Week extends React.Component {
   calcDate(day) {
-    let newDate = new Date(
+    const newDate = new Date(
       this.props.date.getFullYear(),
       this.props.date.getMonth(),
       this.props.date.getDate(),
@@ -36,5 +36,13 @@ class Week extends React.Component {
     );
   }
 }
+
+Week.propTypes = {
+  date: React.PropTypes.shape({
+    getDate: React.PropTypes.func.isRequired,
+    getMonth: React.PropTypes.func.isRequired,
+    getFullYear: React.PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Week;

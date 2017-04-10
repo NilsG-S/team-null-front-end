@@ -23,7 +23,7 @@ class Month extends React.Component {
   }
 
   calcDate(week) {
-    let newDate = new Date(
+    const newDate = new Date(
       this.props.date.getFullYear(),
       this.props.date.getMonth(),
       1,
@@ -31,7 +31,7 @@ class Month extends React.Component {
 
     const diff = newDate.getDay();
     const current = newDate.getDate();
-    newDate.setDate(current - diff + (week - 1) * 7);
+    newDate.setDate((current - diff) + ((week - 1) * 7));
 
     return newDate;
   }
@@ -74,5 +74,12 @@ class Month extends React.Component {
     );
   }
 }
+
+Month.propTypes = {
+  date: React.PropTypes.shape({
+    getMonth: React.PropTypes.func.isRequired,
+    getFullYear: React.PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Month;
