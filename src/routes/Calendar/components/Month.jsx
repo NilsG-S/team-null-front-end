@@ -5,11 +5,44 @@ import Week from './Week.jsx';
 class Month extends React.Component {
   constructor(props) {
     super(props);
+
+    this.date = new Date(
+      this.props.date.getFullYear(),
+      this.props.date.getMonth(),
+      1,
+    );
+
+    const diff = this.date.getDay();
+    const current = this.date.getDate();
+    this.date.setDate(current - diff);
+
     this.state = {
       size: 500,
+      startDay: this.date.getDate(),
+      startMonth: this.date.getMonth(),
+      startYear: this.date.getFullYear(),
     };
 
     this.resizeCalendar = this.resizeCalendar.bind(this);
+    this.calcDate = this.calcDate.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.date = new Date(
+      nextProps.date.getFullYear(),
+      nextProps.date.getMonth(),
+      1,
+    );
+
+    const diff = this.date.getDay();
+    const current = this.date.getDate();
+    this.date.setDate(current - diff);
+
+    this.setState({
+      startDay: this.date.getDate(),
+      startMonth: this.date.getMonth(),
+      startYear: this.date.getFullYear(),
+    });
   }
 
   componentDidMount() {
@@ -19,6 +52,20 @@ class Month extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resizeCalendar);
+  }
+
+  calcDate(week) {
+    let newDate = new Date(
+      this.state.startYear,
+      this.state.startMonth,
+      this.state.startDay,
+    );
+
+    let current = newDate.getDate();
+    current += (week - 1) * 7;
+    newDate.setDate(current);
+
+    return newDate;
   }
 
   resizeCalendar() {
@@ -49,12 +96,12 @@ class Month extends React.Component {
 
     return (
       <div style={style}>
-        <Week />
-        <Week />
-        <Week />
-        <Week />
-        <Week />
-        <Week />
+        <Week date={this.calcDate(1)} />
+        <Week date={this.calcDate(2)} />
+        <Week date={this.calcDate(3)} />
+        <Week date={this.calcDate(4)} />
+        <Week date={this.calcDate(5)} />
+        <Week date={this.calcDate(6)} />
       </div>
     );
   }
