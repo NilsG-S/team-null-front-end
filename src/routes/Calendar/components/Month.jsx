@@ -5,44 +5,12 @@ import Week from './Week.jsx';
 class Month extends React.Component {
   constructor(props) {
     super(props);
-
-    this.date = new Date(
-      this.props.date.getFullYear(),
-      this.props.date.getMonth(),
-      1,
-    );
-
-    const diff = this.date.getDay();
-    const current = this.date.getDate();
-    this.date.setDate(current - diff);
-
     this.state = {
       size: 500,
-      startDay: this.date.getDate(),
-      startMonth: this.date.getMonth(),
-      startYear: this.date.getFullYear(),
     };
 
     this.resizeCalendar = this.resizeCalendar.bind(this);
     this.calcDate = this.calcDate.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.date = new Date(
-      nextProps.date.getFullYear(),
-      nextProps.date.getMonth(),
-      1,
-    );
-
-    const diff = this.date.getDay();
-    const current = this.date.getDate();
-    this.date.setDate(current - diff);
-
-    this.setState({
-      startDay: this.date.getDate(),
-      startMonth: this.date.getMonth(),
-      startYear: this.date.getFullYear(),
-    });
   }
 
   componentDidMount() {
@@ -56,14 +24,14 @@ class Month extends React.Component {
 
   calcDate(week) {
     let newDate = new Date(
-      this.state.startYear,
-      this.state.startMonth,
-      this.state.startDay,
+      this.props.date.getFullYear(),
+      this.props.date.getMonth(),
+      1,
     );
 
-    let current = newDate.getDate();
-    current += (week - 1) * 7;
-    newDate.setDate(current);
+    const diff = newDate.getDay();
+    const current = newDate.getDate();
+    newDate.setDate(current - diff + (week - 1) * 7);
 
     return newDate;
   }
