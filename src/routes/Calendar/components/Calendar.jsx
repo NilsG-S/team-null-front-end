@@ -14,8 +14,7 @@ class Calendar extends React.Component {
   constructor(props) {
     super(props);
 
-    const current = new Date();
-    this.date = new Date(current.getFullYear(), current.getMonth(), 1);
+    this.date = new Date();
     this.monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long' });
 
     this.state = {
@@ -84,7 +83,7 @@ class Calendar extends React.Component {
           align='center'
           justify='center'
         >
-          <Month />
+          <Month date={this.date} />
         </Box>
       </Box>
     );
