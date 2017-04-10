@@ -9,9 +9,19 @@ class Day extends React.Component {
       alignItems: 'center',
     };
 
+    const textStyle = {
+      color: '#000001',
+    };
+
+    if (this.props.date.getDay() === 0
+        || this.props.date.getDay() === 6) {
+      style.backgroundColor = '#865cd6';
+      textStyle.color = '#FFFFFF';
+    }
+
     return (
       <div style={style}>
-        <h3>{this.props.date.getDate()}</h3>
+        <h3 style={textStyle}>{this.props.date.getDate()}</h3>
       </div>
     );
   }
@@ -19,6 +29,7 @@ class Day extends React.Component {
 
 Day.propTypes = {
   date: React.PropTypes.shape({
+    getDay: React.PropTypes.func.isRequired,
     getDate: React.PropTypes.func.isRequired,
   }).isRequired,
 };
