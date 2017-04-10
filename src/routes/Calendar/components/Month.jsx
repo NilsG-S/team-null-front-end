@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Week from './Week.jsx';
+import Weekdays from './Weekdays.jsx';
 
 class Month extends React.Component {
   constructor(props) {
@@ -64,6 +65,7 @@ class Month extends React.Component {
 
     return (
       <div style={style}>
+        <Weekdays />
         <Week date={this.calcDate(1)} />
         <Week date={this.calcDate(2)} />
         <Week date={this.calcDate(3)} />
