@@ -5,16 +5,17 @@ class Day extends React.Component {
     const style = {
       flex: 1,
       display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
+      padding: '10px',
     };
 
     const textStyle = {
       color: '#000001',
     };
 
-    if (this.props.date.getDay() === 0
-        || this.props.date.getDay() === 6) {
+    if (this.props.date.getDay() === 0 ||
+        this.props.date.getDay() === 6) {
       style.backgroundColor = '#865cd6';
       textStyle.color = '#FFFFFF';
     }
