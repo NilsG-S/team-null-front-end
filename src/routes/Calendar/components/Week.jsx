@@ -3,7 +3,7 @@ import React from 'react';
 import Day from './Day.jsx';
 
 class Week extends React.Component {
-  calcDay(day) {
+  calcDate(day) {
     let newDate = new Date(
       this.props.date.getFullYear(),
       this.props.date.getMonth(),
@@ -13,7 +13,7 @@ class Week extends React.Component {
     const current = newDate.getDate();
     newDate.setDate(current + day);
 
-    return newDate.getDate();
+    return newDate;
   }
 
   render() {
@@ -25,13 +25,13 @@ class Week extends React.Component {
 
     return (
       <div style={style}>
-        <Day day={this.calcDay(0)} />
-        <Day day={this.calcDay(1)} />
-        <Day day={this.calcDay(2)} />
-        <Day day={this.calcDay(3)} />
-        <Day day={this.calcDay(4)} />
-        <Day day={this.calcDay(5)} />
-        <Day day={this.calcDay(6)} />
+        <Day date={this.calcDate(0)} />
+        <Day date={this.calcDate(1)} />
+        <Day date={this.calcDate(2)} />
+        <Day date={this.calcDate(3)} />
+        <Day date={this.calcDate(4)} />
+        <Day date={this.calcDate(5)} />
+        <Day date={this.calcDate(6)} />
       </div>
     );
   }

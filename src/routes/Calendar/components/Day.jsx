@@ -11,7 +11,7 @@ class Day extends React.Component {
 
     return (
       <div style={style}>
-        <h3>{this.props.day}</h3>
+        <h3>{this.props.date.getDate()}</h3>
       </div>
     );
   }
