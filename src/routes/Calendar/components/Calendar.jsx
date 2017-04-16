@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Box from 'grommet/components/Box';
 import Header from 'grommet/components/Header';
@@ -7,6 +8,7 @@ import CaretBack from 'grommet/components/icons/base/CaretBack';
 import CaretNext from 'grommet/components/icons/base/CaretNext';
 import Title from 'grommet/components/Title';
 
+import { setDate } from 'redux/actions.js';
 import protectRoute from 'utilities/ProtectRoute.jsx';
 import Month from './Month.jsx';
 
@@ -14,13 +16,18 @@ class Calendar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.date = new Date();
     this.monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long' });
+    this.date = null;
 
-    this.state = {
-      month: this.monthFormatter.format(this.date),
-      year: this.date.getFullYear(),
-    };
+    if (this.props.edit) {
+      this.date = new Date(this.props.date.year, this.props.date.month);
+    } else {
+      this.date = new Date();
+      this.props.dispatch(setDate({
+        year: this.date.getFullYear(),
+        month: this.date.getMonth(),
+      }));
+    }
 
     this.backHandler = this.backHandler.bind(this);
     this.nextHandler = this.nextHandler.bind(this);
@@ -31,10 +38,10 @@ class Calendar extends React.Component {
     current -= 1;
     this.date.setMonth(current);
 
-    this.setState({
-      month: this.monthFormatter.format(this.date),
+    this.props.dispatch(setDate({
       year: this.date.getFullYear(),
-    });
+      month: this.date.getMonth(),
+    }));
   }
 
   nextHandler() {
@@ -42,10 +49,10 @@ class Calendar extends React.Component {
     current += 1;
     this.date.setMonth(current);
 
-    this.setState({
-      month: this.monthFormatter.format(this.date),
+    this.props.dispatch(setDate({
       year: this.date.getFullYear(),
-    });
+      month: this.date.getMonth(),
+    }));
   }
 
   render() {
@@ -69,7 +76,7 @@ class Calendar extends React.Component {
             justify='center'
           >
             <Title>
-              {this.state.month} {this.state.year}
+              {this.monthFormatter.format(this.date)} {this.props.date.year}
             </Title>
           </Box>
           <Button
@@ -90,6 +97,15 @@ class Calendar extends React.Component {
   }
 }
 
+Calendar.propTypes = {
+  dispatch: React.PropTypes.func.isRequired,
+  edit: React.PropTypes.bool.isRequired,
+  date: React.PropTypes.shape({
+    year: React.PropTypes.number.isRequired,
+    month: React.PropTypes.number.isRequired,
+  }).isRequired,
+};
+
 const required = {
   0: false,
   1: true,
@@ -98,4 +114,11 @@ const required = {
   4: false,
 };
 
-export default protectRoute(Calendar, required);
+function mapStateToProps(state) {
+  return {
+    edit: state.edit,
+    date: state.date,
+  };
+}
+
+export default protectRoute(connect(mapStateToProps)(Calendar), required);

@@ -14,13 +14,13 @@ function genDates() {
       for (let k = 0; k < 2; k += 1) {
         minutes = k * 30;
 
-        array.push([
-          id,
-          1,
-          1,
-          new Date(year, month, i, j, minutes),
-          2,
-        ]);
+        array.push({
+          appointment_id: id,
+          employee_id: 1,
+          patient_id: 1,
+          date_time: new Date(year, month, i, j, minutes),
+          completed: 2,
+        });
 
         id += 1;
       }
