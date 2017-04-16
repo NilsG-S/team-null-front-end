@@ -35,10 +35,32 @@ function appointments(state = [], action) {
 }
 
 function date(state = defaultDate, action) {
-  const newDate = action.date;
+  let newDate;
 
   switch (action.type) {
+    case AppointmentActionTypes.INC:
+      newDate = new Date(state.year, state.month + 1);
+
+      return {
+        year: newDate.getFullYear(),
+        month: newDate.getMonth(),
+        day: state.day,
+        hour: state.hour,
+        minute: state.minute,
+      };
+    case AppointmentActionTypes.DEC:
+      newDate = new Date(state.year, state.month - 1);
+
+      return {
+        year: newDate.getFullYear(),
+        month: newDate.getMonth(),
+        day: state.day,
+        hour: state.hour,
+        minute: state.minute,
+      };
     case AppointmentActionTypes.DATE:
+      newDate = action.date;
+
       Object.keys(state).forEach((key) => {
         if (!Object.prototype.hasOwnProperty.call(newDate, key)) {
           newDate.key = state.key;

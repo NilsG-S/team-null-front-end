@@ -9,6 +9,8 @@ export const AppointmentActionTypes = {
   EDIT: 'EDIT',
   CACHE: 'CACHE',
   DATE: 'DATE',
+  INC: 'INC',
+  DEC: 'DEC',
 };
 
 // Register.js uses AuthStates to set the database values for role.
@@ -68,5 +70,17 @@ export function setDate(date) {
   return {
     type: AppointmentActionTypes.DATE,
     date,
+  };
+}
+
+export function incMonth() {
+  return {
+    type: AppointmentActionTypes.INC,
+  };
+}
+
+export function decMonth() {
+  return {
+    type: AppointmentActionTypes.DEC,
   };
 }
