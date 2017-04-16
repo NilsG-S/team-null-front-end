@@ -5,6 +5,16 @@ export const UserActionTypes = {
   LOGOUT: 'LOGOUT',
 };
 
+export const AppointmentActionTypes = {
+  EDIT: 'EDIT',
+  CACHE: 'CACHE',
+  YEAR: 'YEAR',
+  MONTH: 'MONTH',
+  DAY: 'DAY',
+  HOURS: 'HOURS',
+  MINUTES: 'MINUTES',
+};
+
 // Register.js uses AuthStates to set the database values for role.
 export const AuthStates = {
   GUEST: 0,
@@ -34,5 +44,53 @@ export function updateUser(user) {
 export function logoutUser() {
   return {
     type: UserActionTypes.LOGOUT,
+  };
+}
+
+export function toggleEdit() {
+  return {
+    type: AppointmentActionTypes.EDIT,
+  };
+}
+
+export function cacheAppointments(appointments) {
+  return {
+    type: AppointmentActionTypes.CACHE,
+    appointments,
+  };
+}
+
+export function setYear(year) {
+  return {
+    type: AppointmentActionTypes.YEAR,
+    year,
+  };
+}
+
+export function setMonth(month) {
+  return {
+    type: AppointmentActionTypes.MONTH,
+    month,
+  };
+}
+
+export function setDay(day) {
+  return {
+    type: AppointmentActionTypes.DAY,
+    day,
+  };
+}
+
+export function setHours(hours) {
+  return {
+    type: AppointmentActionTypes.HOURS,
+    hours,
+  };
+}
+
+export function setMinutes(minutes) {
+  return {
+    type: AppointmentActionTypes.MINUTES,
+    minutes,
   };
 }
