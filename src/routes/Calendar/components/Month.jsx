@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Week from './Week.jsx';
 import Weekdays from './Weekdays.jsx';
@@ -25,8 +26,8 @@ class Month extends React.Component {
 
   calcDate(week) {
     const newDate = new Date(
-      this.props.date.getFullYear(),
-      this.props.date.getMonth(),
+      this.props.date.year,
+      this.props.date.month,
       1,
     );
 
@@ -79,9 +80,15 @@ class Month extends React.Component {
 
 Month.propTypes = {
   date: React.PropTypes.shape({
-    getMonth: React.PropTypes.func.isRequired,
-    getFullYear: React.PropTypes.func.isRequired,
+    month: React.PropTypes.number.isRequired,
+    year: React.PropTypes.number.isRequired,
   }).isRequired,
 };
 
-export default Month;
+function mapStateToProps(state) {
+  return {
+    date: state.date,
+  };
+}
+
+export default connect(mapStateToProps)(Month);

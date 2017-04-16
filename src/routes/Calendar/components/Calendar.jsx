@@ -8,7 +8,7 @@ import CaretBack from 'grommet/components/icons/base/CaretBack';
 import CaretNext from 'grommet/components/icons/base/CaretNext';
 import Title from 'grommet/components/Title';
 
-import { setDate } from 'redux/actions.js';
+import { setDate, incMonth, decMonth } from 'redux/actions.js';
 import protectRoute from 'utilities/ProtectRoute.jsx';
 import Month from './Month.jsx';
 
@@ -17,15 +17,12 @@ class Calendar extends React.Component {
     super(props);
 
     this.monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long' });
-    this.date = null;
 
-    if (this.props.edit) {
-      this.date = new Date(this.props.date.year, this.props.date.month);
-    } else {
-      this.date = new Date();
+    if (!this.props.edit) {
+      const date = new Date();
       this.props.dispatch(setDate({
-        year: this.date.getFullYear(),
-        month: this.date.getMonth(),
+        year: date.getFullYear(),
+        month: date.getMonth(),
       }));
     }
 
@@ -34,25 +31,11 @@ class Calendar extends React.Component {
   }
 
   backHandler() {
-    let current = this.date.getMonth();
-    current -= 1;
-    this.date.setMonth(current);
-
-    this.props.dispatch(setDate({
-      year: this.date.getFullYear(),
-      month: this.date.getMonth(),
-    }));
+    this.props.dispatch(decMonth());
   }
 
   nextHandler() {
-    let current = this.date.getMonth();
-    current += 1;
-    this.date.setMonth(current);
-
-    this.props.dispatch(setDate({
-      year: this.date.getFullYear(),
-      month: this.date.getMonth(),
-    }));
+    this.props.dispatch(incMonth());
   }
 
   render() {
@@ -76,7 +59,10 @@ class Calendar extends React.Component {
             justify='center'
           >
             <Title>
-              {this.monthFormatter.format(this.date)} {this.props.date.year}
+              {this.monthFormatter.format(new Date(
+                this.props.date.year,
+                this.props.date.month,
+              ))} {this.props.date.year}
             </Title>
           </Box>
           <Button
@@ -90,7 +76,7 @@ class Calendar extends React.Component {
           align='center'
           justify='center'
         >
-          <Month date={this.date} />
+          <Month />
         </Box>
       </Box>
     );
