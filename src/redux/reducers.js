@@ -2,6 +2,7 @@ import {
   UserActionTypes,
   AppointmentActionTypes,
   employee,
+  defaultDate,
 } from './actions.js';
 
 function user(state = employee, action) {
@@ -33,46 +34,18 @@ function appointments(state = [], action) {
   }
 }
 
-function year(state = 0, action) {
-  switch (action.type) {
-    case AppointmentActionTypes.YEAR:
-      return action.year;
-    default:
-      return state;
-  }
-}
+function date(state = defaultDate, action) {
+  const newDate = action.date;
 
-function month(state = 0, action) {
   switch (action.type) {
-    case AppointmentActionTypes.MONTH:
-      return action.month;
-    default:
-      return state;
-  }
-}
+    case AppointmentActionTypes.DATE:
+      Object.keys(state).forEach((key) => {
+        if (!Object.prototype.hasOwnProperty.call(newDate, key)) {
+          newDate.key = state.key;
+        }
+      });
 
-function day(state = 0, action) {
-  switch (action.type) {
-    case AppointmentActionTypes.DAY:
-      return action.day;
-    default:
-      return state;
-  }
-}
-
-function hours(state = 0, action) {
-  switch (action.type) {
-    case AppointmentActionTypes.HOURS:
-      return action.hours;
-    default:
-      return state;
-  }
-}
-
-function minutes(state = 0, action) {
-  switch (action.type) {
-    case AppointmentActionTypes.MINUTES:
-      return action.minutes;
+      return newDate;
     default:
       return state;
   }
@@ -83,11 +56,7 @@ function healthApp(state = {}, action) {
     user: user(state.user, action),
     edit: edit(state.edit, action),
     appointments: appointments(state.appointments, action),
-    year: year(state.year, action),
-    month: month(state.month, action),
-    day: day(state.day, action),
-    hours: hours(state.hours, action),
-    minutes: minutes(state.minutes, action),
+    date: date(state.date, action),
   };
 }
 

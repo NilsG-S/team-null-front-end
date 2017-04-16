@@ -8,11 +8,7 @@ export const UserActionTypes = {
 export const AppointmentActionTypes = {
   EDIT: 'EDIT',
   CACHE: 'CACHE',
-  YEAR: 'YEAR',
-  MONTH: 'MONTH',
-  DAY: 'DAY',
-  HOURS: 'HOURS',
-  MINUTES: 'MINUTES',
+  DATE: 'DATE',
 };
 
 // Register.js uses AuthStates to set the database values for role.
@@ -30,6 +26,14 @@ export const employee = {
   last_name: '',
   type: AuthStates.GUEST,
   associated_id: 0,
+};
+
+export const defaultDate = {
+  year: 0,
+  month: 0,
+  day: 0,
+  hour: 0,
+  minute: 0,
 };
 
 // action creators
@@ -60,37 +64,9 @@ export function cacheAppointments(appointments) {
   };
 }
 
-export function setYear(year) {
+export function setDate(date) {
   return {
-    type: AppointmentActionTypes.YEAR,
-    year,
-  };
-}
-
-export function setMonth(month) {
-  return {
-    type: AppointmentActionTypes.MONTH,
-    month,
-  };
-}
-
-export function setDay(day) {
-  return {
-    type: AppointmentActionTypes.DAY,
-    day,
-  };
-}
-
-export function setHours(hours) {
-  return {
-    type: AppointmentActionTypes.HOURS,
-    hours,
-  };
-}
-
-export function setMinutes(minutes) {
-  return {
-    type: AppointmentActionTypes.MINUTES,
-    minutes,
+    type: AppointmentActionTypes.DATE,
+    date,
   };
 }
