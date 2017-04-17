@@ -1,5 +1,6 @@
 import React from 'react';
 
+import WeekendDay from './WeekendDay.jsx';
 import Day from './Day.jsx';
 
 class Week extends React.Component {
@@ -25,13 +26,13 @@ class Week extends React.Component {
 
     return (
       <div style={style}>
-        <Day date={this.calcDate(0)} />
+        <WeekendDay date={this.calcDate(0)} />
         <Day date={this.calcDate(1)} />
         <Day date={this.calcDate(2)} />
         <Day date={this.calcDate(3)} />
         <Day date={this.calcDate(4)} />
         <Day date={this.calcDate(5)} />
-        <Day date={this.calcDate(6)} />
+        <WeekendDay date={this.calcDate(6)} />
       </div>
     );
   }
