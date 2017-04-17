@@ -17,6 +17,20 @@ class Day extends React.Component {
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    this.onUpdate(() => {
+      if (prevProps.currentDate.month !== this.props.currentDate.month) {
+        this.setState({
+          free: this.checkFree(),
+        });
+      }
+    });
+  }
+
+  onUpdate(callback) {
+    callback();
+  }
+
   handleMouseLeave() {
     this.setState({
       boxShadow: '0px 0px 3px rgba(0, 0, 0, 0)',
@@ -69,22 +83,29 @@ class Day extends React.Component {
       color: '#000001',
     };
 
+    let output = null;
     if (!this.state.free) {
       style.backgroundColor = '#865cd6';
       textStyle.color = '#FFFFFF';
+      output = (
+        <div style={style}>
+          <h3 style={textStyle}>{this.props.date.getDate()}</h3>
+        </div>
+      );
     } else {
       style.boxShadow = this.state.boxShadow;
+      output = (
+        <div
+          style={style}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+        >
+          <h3 style={textStyle}>{this.props.date.getDate()}</h3>
+        </div>
+      );
     }
 
-    return (
-      <div
-        style={style}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      >
-        <h3 style={textStyle}>{this.props.date.getDate()}</h3>
-      </div>
-    );
+    return output;
   }
 }
 
