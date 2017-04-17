@@ -25,7 +25,7 @@ function appointmentId(state = 0, action) {
   }
 }
 
-function appointments(state = [], action) {
+function appointments(state = new Map(), action) {
   switch (action.type) {
     case AppointmentActionTypes.CACHE:
       return action.appointments;

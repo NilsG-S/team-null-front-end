@@ -29,10 +29,30 @@ function genDates() {
   return array;
 }
 
+export function dateToKey(date) {
+  return date.toLocaleString('en-US', {
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  });
+}
+
 export function getAll() {
   return new Promise((resolve, reject) => {
-    const appointments = genDates();
-    store.dispatch(cacheAppointments(appointments));
-    resolve(appointments);
+    const map = new Map();
+
+    genDates().forEach((element) => {
+      map.set(dateToKey(element.date_time), {
+        appointment_id: element.appointment_id,
+        employee_id: element.employee_id,
+        patient_id: element.patient_id,
+        date_time: element.date_time,
+        completed: element.completed,
+      });
+    });
+
+    store.dispatch(cacheAppointments(map));
+    resolve();
   });
 }
