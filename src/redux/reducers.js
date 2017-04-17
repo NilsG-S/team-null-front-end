@@ -16,10 +16,10 @@ function user(state = employee, action) {
   }
 }
 
-function edit(state = false, action) {
+function appointmentId(state = 0, action) {
   switch (action.type) {
-    case UserActionTypes.EDIT:
-      return !state;
+    case AppointmentActionTypes.ID:
+      return action.newId;
     default:
       return state;
   }
@@ -76,7 +76,7 @@ function date(state = defaultDate, action) {
 function healthApp(state = {}, action) {
   return {
     user: user(state.user, action),
-    edit: edit(state.edit, action),
+    appointmentId: appointmentId(state.appointmentId, action),
     appointments: appointments(state.appointments, action),
     date: date(state.date, action),
   };

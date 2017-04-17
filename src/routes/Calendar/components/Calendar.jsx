@@ -18,7 +18,7 @@ class Calendar extends React.Component {
 
     this.monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long' });
 
-    if (!this.props.edit) {
+    if (this.props.appointmentId === 0) {
       const date = new Date();
       this.props.dispatch(setDate({
         year: date.getFullYear(),
@@ -85,7 +85,7 @@ class Calendar extends React.Component {
 
 Calendar.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  edit: React.PropTypes.bool.isRequired,
+  appointmentId: React.PropTypes.number.isRequired,
   date: React.PropTypes.shape({
     year: React.PropTypes.number.isRequired,
     month: React.PropTypes.number.isRequired,
@@ -102,7 +102,7 @@ const required = {
 
 function mapStateToProps(state) {
   return {
-    edit: state.edit,
+    appointmentId: state.appointmentId,
     date: state.date,
   };
 }

@@ -6,7 +6,7 @@ export const UserActionTypes = {
 };
 
 export const AppointmentActionTypes = {
-  EDIT: 'EDIT',
+  ID: 'ID',
   CACHE: 'CACHE',
   DATE: 'DATE',
   INC: 'INC',
@@ -53,9 +53,10 @@ export function logoutUser() {
   };
 }
 
-export function toggleEdit() {
+export function setAppointmentId(newId) {
   return {
-    type: AppointmentActionTypes.EDIT,
+    type: AppointmentActionTypes.ID,
+    newId,
   };
 }
 
