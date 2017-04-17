@@ -15,6 +15,7 @@ class Day extends React.Component {
 
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -41,6 +42,13 @@ class Day extends React.Component {
     this.setState({
       boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.4)',
     });
+  }
+
+  handleClick() {
+    this.props.dispatch(setDate({
+      day: this.props.date.getDate(),
+    }));
+    this.props.history.push('/calendar/daily');
   }
 
   checkFree() {
@@ -99,6 +107,8 @@ class Day extends React.Component {
           style={style}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
+          onClick={this.handleClick}
+          role='button'
         >
           <h3 style={textStyle}>{this.props.date.getDate()}</h3>
         </div>
@@ -119,6 +129,10 @@ Day.propTypes = {
   currentDate: React.PropTypes.shape({
     month: React.PropTypes.number.isRequired,
   }).isRequired,
+  dispatch: React.PropTypes.func.isRequired,
+  history: React.PropTypes.shape({
+    push: React.PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 function mapStateToProps(state) {
@@ -128,4 +142,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Day);
+export default connect(mapStateToProps)(withRouter(Day));

@@ -63,7 +63,7 @@ function date(state = defaultDate, action) {
 
       Object.keys(state).forEach((key) => {
         if (!Object.prototype.hasOwnProperty.call(newDate, key)) {
-          newDate.key = state.key;
+          newDate[key] = state[key];
         }
       });
 
