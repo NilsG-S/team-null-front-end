@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { getAll } from 'server/appointments.js';
 import Week from './Week.jsx';
 import Weekdays from './Weekdays.jsx';
 
@@ -11,6 +12,8 @@ class Month extends React.Component {
       size: 500,
     };
 
+    this.getAppointments();
+
     this.resizeCalendar = this.resizeCalendar.bind(this);
     this.calcDate = this.calcDate.bind(this);
   }
@@ -20,8 +23,22 @@ class Month extends React.Component {
     window.addEventListener('resize', this.resizeCalendar);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.date.month !== this.props.date.month) {
+      this.getAppointments();
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.resizeCalendar);
+  }
+
+  getAppointments() {
+    /*
+      TODO: (NilsG-S) Call different functions depending on filters and auth
+      state. These should be gotten from the redux store.
+    */
+    getAll();
   }
 
   calcDate(week) {

@@ -2,15 +2,14 @@ import { cacheAppointments } from 'redux/actions.js';
 import { store } from 'AppConfig.jsx';
 
 function genDates() {
-  const state = store.getState();
-  const year = state.year;
-  const month = state.month;
+  const year = 2017;
+  const month = 3;
   const array = [];
   let id = 1;
   let minutes;
 
-  for (let i = 1; i < 21; i += 1) {
-    for (let j = 8; j < 5; j += 1) {
+  for (let i = 1; i < 6; i += 1) {
+    for (let j = 8; j < 17; j += 1) {
       for (let k = 0; k < 2; k += 1) {
         minutes = k * 30;
 
