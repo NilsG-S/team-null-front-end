@@ -91,7 +91,7 @@ class Appointment extends React.Component {
     let passCancel = this.handleCancel;
     let submitLabel = 'Submit';
     let cancelLabel = 'Cancel';
-    if (this.props.edit) {
+    if (this.appointment !== undefined) {
       passSubmit = this.handleEdit;
       passCancel = this.handleDelete;
       submitLabel = 'Modify';
@@ -118,13 +118,14 @@ class Appointment extends React.Component {
                 name='date'
                 type='text'
                 value={date}
+                disabled
               />
             </FormField>
             <Box
               flex
               direction='row'
               justify='center'
-              pad={{ between: 'small' }}
+              responsive={false}
             >
               <Button
                 label='Date'
@@ -138,6 +139,7 @@ class Appointment extends React.Component {
                 name='doctor'
                 type='text'
                 value={this.state.doctor}
+                onChange={this.handleInputChange}
               />
             </FormField>
             <FormField label='Patient'>
@@ -145,6 +147,7 @@ class Appointment extends React.Component {
                 name='patient'
                 type='text'
                 value={this.state.patient}
+                onChange={this.handleInputChange}
               />
             </FormField>
           </fieldset>
@@ -153,6 +156,7 @@ class Appointment extends React.Component {
             direction='row'
             justify='center'
             pad={{ between: 'small' }}
+            responsive={false}
           >
             <Button
               label={submitLabel}
@@ -177,7 +181,6 @@ class Appointment extends React.Component {
 }
 
 Appointment.propTypes = {
-  edit: React.PropTypes.bool.isRequired,
   date: React.PropTypes.shape({
     year: React.PropTypes.number.isRequired,
     month: React.PropTypes.number.isRequired,
@@ -205,7 +208,6 @@ const required = {
 
 function mapStateToProps(state) {
   return {
-    edit: state.edit,
     date: state.date,
     appointments: state.appointments,
   };
