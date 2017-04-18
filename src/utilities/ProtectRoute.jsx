@@ -5,11 +5,12 @@ import { Redirect } from 'react-router-dom';
 function protectRoute(Component, required) {
   class ProtectedWrapper extends React.Component {
     render() {
-      const authorized = required[this.props.type];
+      const { dispatch, type, ...passThroughProps } = this.props;
+      const authorized = required[type];
       let output = null;
 
       if (authorized) {
-        output = (<Component />);
+        output = (<Component {...passThroughProps} />);
       } else {
         output = (<Redirect to='/auth' />);
       }
@@ -19,6 +20,7 @@ function protectRoute(Component, required) {
   }
 
   ProtectedWrapper.propTypes = {
+    dispatch: React.PropTypes.func.isRequired,
     type: React.PropTypes.number.isRequired,
   };
 
