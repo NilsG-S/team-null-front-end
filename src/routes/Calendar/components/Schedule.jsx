@@ -43,28 +43,45 @@ class Schedule extends React.Component {
   }
 
   makeItem(element) {
-    let color = null;
-
-    if (this.props.appointments.has(dateToKey(new Date(
+    const hour = element.hour;
+    const minute = element.minute;
+    const date = new Date(
       this.props.date.year,
       this.props.date.month,
       this.props.date.day,
-      element.hour,
-      element.minute,
-    )))) {
+      hour,
+      minute,
+    );
+    let color = null;
+    let available = null;
+    const key = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' });
+    const textStyle = {};
+
+    if (this.props.appointments.has(dateToKey(date))) {
       color = 'brand';
+      available = 'scheduled';
+      textStyle.color = '#FFFFFF';
     } else {
       color = 'light-1';
+      available = 'unscheduled';
+      textStyle.color = '#000001';
     }
 
     return (
       <ListItem
-        key={element.hour.toString() + ':' + element.minute.toString()}
+        key={key}
         colorIndex={color}
         onClick={this.handleClick}
+        responsive={false}
+        justify='between'
+        direction='row'
+        size={{ width: 'large' }}
       >
-        <span>
-          Alan
+        <span style={textStyle}>
+          {key}
+        </span>
+        <span style={textStyle}>
+          {available}
         </span>
       </ListItem>
     );
@@ -73,7 +90,7 @@ class Schedule extends React.Component {
   render() {
     return (
       <Layer
-        closer={true}
+        closer
         flush={false}
         align='center'
         onClose={this.handleClose}
@@ -95,6 +112,9 @@ Schedule.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   history: React.PropTypes.shape({
     push: React.PropTypes.func.isRequired,
+  }).isRequired,
+  appointments: React.PropTypes.shape({
+    has: React.PropTypes.func.isRequired,
   }).isRequired,
 };
 
