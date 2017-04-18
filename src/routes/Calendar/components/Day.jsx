@@ -48,7 +48,7 @@ class Day extends React.Component {
     this.props.dispatch(setDate({
       day: this.props.date.getDate(),
     }));
-    this.props.history.push('/calendar/daily');
+    this.props.history.push('/calendar/schedule');
   }
 
   checkFree() {
@@ -58,18 +58,20 @@ class Day extends React.Component {
     if (this.props.date.getMonth() !== this.props.currentDate.month) {
       free = false;
     } else {
+      free = false;
+
       for (let j = 8; j < 17; j += 1) {
         for (let k = 0; k < 2; k += 1) {
           minutes = k * 30;
 
-          if (this.props.appointments.has(dateToKey(new Date(
+          if (!this.props.appointments.has(dateToKey(new Date(
             this.props.date.getFullYear(),
             this.props.date.getMonth(),
             this.props.date.getDate(),
             j,
             minutes,
           )))) {
-            free = false;
+            free = true;
           }
         }
       }

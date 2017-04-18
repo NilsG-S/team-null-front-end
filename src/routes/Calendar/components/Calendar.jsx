@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Route } from 'react-router-dom';
 
 import Box from 'grommet/components/Box';
 import Header from 'grommet/components/Header';
@@ -11,6 +12,7 @@ import Title from 'grommet/components/Title';
 import { setDate, incMonth, decMonth } from 'redux/actions.js';
 import protectRoute from 'utilities/ProtectRoute.jsx';
 import Month from './Month.jsx';
+import Schedule from './Schedule.jsx';
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -78,6 +80,8 @@ class Calendar extends React.Component {
         >
           <Month />
         </Box>
+
+        <Route path='/calendar/schedule' component={Schedule} />
       </Box>
     );
   }
