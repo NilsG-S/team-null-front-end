@@ -76,7 +76,6 @@ class Calendar extends React.Component {
           id='routes-calendar-components-calendar-box-1'
           flex
           align='center'
-          justify='center'
         >
           <Month />
         </Box>

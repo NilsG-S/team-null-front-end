@@ -10,7 +10,8 @@ class Day extends React.Component {
     super(props);
     this.state = {
       boxShadow: '0px 0px 3px rgba(0, 0, 0, 0)',
-      free: this.checkFree(),
+      scheduled: this.checkScheduled(),
+      month: this.checkMonth(),
     };
 
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
@@ -22,7 +23,8 @@ class Day extends React.Component {
     this.onUpdate(() => {
       if (prevProps.currentDate.month !== this.props.currentDate.month) {
         this.setState({
-          free: this.checkFree(),
+          scheduled: this.checkScheduled(),
+          month: this.checkMonth(),
         });
       }
     });
@@ -51,33 +53,36 @@ class Day extends React.Component {
     this.props.history.push('/calendar/schedule');
   }
 
-  checkFree() {
-    let minutes;
-    let free = true;
+  checkMonth() {
+    let month = true;
 
     if (this.props.date.getMonth() !== this.props.currentDate.month) {
-      free = false;
-    } else {
-      free = false;
+      month = false;
+    }
 
-      for (let j = 8; j < 17; j += 1) {
-        for (let k = 0; k < 2; k += 1) {
-          minutes = k * 30;
+    return month;
+  }
 
-          if (!this.props.appointments.has(dateToKey(new Date(
-            this.props.date.getFullYear(),
-            this.props.date.getMonth(),
-            this.props.date.getDate(),
-            j,
-            minutes,
-          )))) {
-            free = true;
-          }
+  checkScheduled() {
+    let minutes;
+
+    for (let j = 8; j < 17; j += 1) {
+      for (let k = 0; k < 2; k += 1) {
+        minutes = k * 30;
+
+        if (!this.props.appointments.has(dateToKey(new Date(
+          this.props.date.getFullYear(),
+          this.props.date.getMonth(),
+          this.props.date.getDate(),
+          j,
+          minutes,
+        )))) {
+          return false;
         }
       }
     }
 
-    return free;
+    return true;
   }
 
   render() {
@@ -88,36 +93,35 @@ class Day extends React.Component {
       alignItems: 'flex-start',
       padding: '10px',
     };
-
     const textStyle = {
       color: '#000001',
     };
+    const active = {
+      role: 'button',
+      onMouseEnter: this.handleMouseEnter,
+      onMouseLeave: this.handleMouseLeave,
+      onClick: this.handleClick,
+    };
 
-    let output = null;
-    if (!this.state.free) {
+    if (this.state.scheduled) {
       style.backgroundColor = '#865cd6';
       textStyle.color = '#FFFFFF';
-      output = (
-        <div style={style}>
-          <h3 style={textStyle}>{this.props.date.getDate()}</h3>
-        </div>
-      );
-    } else {
-      style.boxShadow = this.state.boxShadow;
-      output = (
-        <div
-          style={style}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-          onClick={this.handleClick}
-          role='button'
-        >
-          <h3 style={textStyle}>{this.props.date.getDate()}</h3>
-        </div>
-      );
     }
 
-    return output;
+    if (!this.state.month) {
+      active.role = null;
+      active.onMouseEnter = null;
+      active.onMouseLeave = null;
+      active.onClick = null;
+    } else {
+      style.boxShadow = this.state.boxShadow;
+    }
+
+    return (
+      <div style={style} {...active}>
+        <h3 style={textStyle}>{this.props.date.getDate()}</h3>
+      </div>
+    );
   }
 }
 
@@ -134,6 +138,9 @@ Day.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   history: React.PropTypes.shape({
     push: React.PropTypes.func.isRequired,
+  }).isRequired,
+  appointments: React.PropTypes.shape({
+    has: React.PropTypes.func.isRequired,
   }).isRequired,
 };
 
