@@ -17,16 +17,13 @@ import Schedule from './Schedule.jsx';
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
-
     this.monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long' });
 
-    if (!this.props.edit) {
-      const date = new Date();
-      this.props.dispatch(setDate({
-        year: date.getFullYear(),
-        month: date.getMonth(),
-      }));
-    }
+    const date = new Date();
+    this.props.dispatch(setDate({
+      year: date.getFullYear(),
+      month: date.getMonth(),
+    }));
 
     this.backHandler = this.backHandler.bind(this);
     this.nextHandler = this.nextHandler.bind(this);
@@ -88,7 +85,6 @@ class Calendar extends React.Component {
 
 Calendar.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  edit: React.PropTypes.bool.isRequired,
   date: React.PropTypes.shape({
     year: React.PropTypes.number.isRequired,
     month: React.PropTypes.number.isRequired,
@@ -105,7 +101,6 @@ const required = {
 
 function mapStateToProps(state) {
   return {
-    edit: state.edit,
     date: state.date,
   };
 }

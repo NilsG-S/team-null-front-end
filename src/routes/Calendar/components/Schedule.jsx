@@ -40,10 +40,6 @@ class Schedule extends React.Component {
       minute: parseInt(key[1], 10),
     }));
 
-    if (children[1].innerHTML === 'scheduled') {
-      this.props.dispatch(toggleEdit());
-    }
-
     if (this.props.type === AuthStates.STAFF) {
       this.props.history.push('/appointment');
     } else {
@@ -52,7 +48,12 @@ class Schedule extends React.Component {
   }
 
   handleClose() {
-    this.props.history.push('/calendar');
+    if (this.props.edit) {
+      this.props.dispatch(toggleEdit());
+      this.props.history.push('/appointment');
+    } else {
+      this.props.history.push('/calendar');
+    }
   }
 
   makeItem(element) {
@@ -130,6 +131,7 @@ Schedule.propTypes = {
     has: React.PropTypes.func.isRequired,
   }).isRequired,
   type: React.PropTypes.number.isRequired,
+  edit: React.PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -137,6 +139,7 @@ function mapStateToProps(state) {
     date: state.date,
     appointments: state.appointments,
     type: state.user.type,
+    edit: state.edit,
   };
 }
 

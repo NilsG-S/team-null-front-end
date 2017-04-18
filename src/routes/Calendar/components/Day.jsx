@@ -21,7 +21,7 @@ class Day extends React.Component {
 
   componentDidUpdate(prevProps) {
     this.onUpdate(() => {
-      if (prevProps.currentDate.month !== this.props.currentDate.month) {
+      if (prevProps.appointments !== this.props.appointments) {
         this.setState({
           scheduled: this.checkScheduled(),
           month: this.checkMonth(),
@@ -50,7 +50,12 @@ class Day extends React.Component {
     this.props.dispatch(setDate({
       day: this.props.date.getDate(),
     }));
-    this.props.history.push('/calendar/schedule');
+
+    if (this.props.edit) {
+      this.props.history.push('/appointment/schedule');
+    } else {
+      this.props.history.push('/calendar/schedule');
+    }
   }
 
   checkMonth() {
@@ -142,12 +147,14 @@ Day.propTypes = {
   appointments: React.PropTypes.shape({
     has: React.PropTypes.func.isRequired,
   }).isRequired,
+  edit: React.PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     currentDate: state.date,
     appointments: state.appointments,
+    edit: state.edit,
   };
 }
 
