@@ -7,7 +7,7 @@ import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 
 import { dateToKey } from 'server/appointments.js';
-import { setDate, AuthStates } from 'redux/actions.js';
+import { setDate, AuthStates, toggleEdit } from 'redux/actions.js';
 
 class Schedule extends React.Component {
   constructor(props) {
@@ -32,9 +32,17 @@ class Schedule extends React.Component {
   }
 
   handleClick(event) {
-    // this.props.dispatch(setDate({
-    //   hour: this.props.date.getDate(),
-    // }));
+    const children = event.target.childNodes;
+    const key = children[0].innerHTML.split(':');
+
+    this.props.dispatch(setDate({
+      hour: parseInt(key[0], 10),
+      minute: parseInt(key[1], 10),
+    }));
+
+    if (children[1].innerHTML === 'scheduled') {
+      this.props.dispatch(toggleEdit());
+    }
 
     if (this.props.type === AuthStates.STAFF) {
       this.props.history.push('/appointment');
