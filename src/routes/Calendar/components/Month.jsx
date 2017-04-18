@@ -12,13 +12,12 @@ class Month extends React.Component {
       size: 500,
     };
 
-    this.getAppointments();
-
     this.resizeCalendar = this.resizeCalendar.bind(this);
     this.calcDate = this.calcDate.bind(this);
   }
 
   componentDidMount() {
+    this.getAppointments();
     this.resizeCalendar();
     window.addEventListener('resize', this.resizeCalendar);
   }
