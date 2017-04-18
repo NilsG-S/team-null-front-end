@@ -8,7 +8,7 @@ function genDates() {
   let id = 1;
   let minutes;
 
-  for (let i = 1; i < 6; i += 1) {
+  for (let i = 3; i < 7; i += 1) {
     for (let j = 8; j < 17; j += 1) {
       for (let k = 0; k < 2; k += 1) {
         minutes = k * 30;
@@ -23,6 +23,22 @@ function genDates() {
 
         id += 1;
       }
+    }
+  }
+
+  for (let j = 8; j < 13; j += 1) {
+    for (let k = 0; k < 2; k += 1) {
+      minutes = k * 30;
+
+      array.push({
+        appointment_id: id,
+        employee_id: 1,
+        patient_id: 1,
+        date_time: new Date(year, month, 7, j, minutes),
+        completed: 2,
+      });
+
+      id += 1;
     }
   }
 
