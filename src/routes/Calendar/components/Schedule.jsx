@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Layer from 'grommet/components/Layer';
+import Box from 'grommet/components/Box';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 
@@ -39,6 +40,10 @@ class Schedule extends React.Component {
       hour: parseInt(key[0], 10),
       minute: parseInt(key[1], 10),
     }));
+
+    if (this.props.edit) {
+      this.props.dispatch(toggleEdit());
+    }
 
     if (this.props.type === AuthStates.STAFF) {
       this.props.history.push('/appointment');
@@ -89,7 +94,6 @@ class Schedule extends React.Component {
         responsive={false}
         justify='between'
         direction='row'
-        size={{ width: 'large' }}
       >
         <span style={textStyle}>
           {key}
@@ -109,9 +113,11 @@ class Schedule extends React.Component {
         align='center'
         onClose={this.handleClose}
       >
-        <List>
-          {this.times.map(this.makeItem)}
-        </List>
+        <Box full>
+          <List>
+            {this.times.map(this.makeItem)}
+          </List>
+        </Box>
       </Layer>
     );
   }
