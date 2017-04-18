@@ -120,12 +120,19 @@ class Appointment extends React.Component {
                 value={date}
               />
             </FormField>
-            <Button
-              label='Date'
-              type='button'
-              secondary
-              onClick={this.setDate}
-            />
+            <Box
+              flex
+              direction='row'
+              justify='center'
+              pad={{ between: 'small' }}
+            >
+              <Button
+                label='Date'
+                type='button'
+                primary={false}
+                onClick={this.setDate}
+              />
+            </Box>
             <FormField label='Doctor'>
               <input
                 name='doctor'
@@ -141,7 +148,12 @@ class Appointment extends React.Component {
               />
             </FormField>
           </fieldset>
-          <Footer size='small' direction='row'>
+          <Footer
+            size='small'
+            direction='row'
+            justify='center'
+            pad={{ between: 'small' }}
+          >
             <Button
               label={submitLabel}
               type='submit'
@@ -151,7 +163,7 @@ class Appointment extends React.Component {
             <Button
               label={cancelLabel}
               type='button'
-              secondary
+              primary={false}
               onClick={passCancel}
             />
           </Footer>
