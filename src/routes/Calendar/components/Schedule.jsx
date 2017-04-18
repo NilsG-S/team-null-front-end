@@ -73,6 +73,7 @@ class Schedule extends React.Component {
     );
     let color = null;
     let available = null;
+    let click = this.handleClick;
     const key = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' });
     const textStyle = {};
 
@@ -81,6 +82,11 @@ class Schedule extends React.Component {
       available = 'scheduled';
       textStyle.color = '#FFFFFF';
     } else {
+      if (this.props.type === AuthStates.DOCTOR ||
+          this.props.type === AuthStates.NURSE) {
+        click = null;
+      }
+
       color = 'light-1';
       available = 'unscheduled';
       textStyle.color = '#000001';
@@ -90,7 +96,7 @@ class Schedule extends React.Component {
       <ListItem
         key={key}
         colorIndex={color}
-        onClick={this.handleClick}
+        onClick={click}
         responsive={false}
         justify='between'
         direction='row'
