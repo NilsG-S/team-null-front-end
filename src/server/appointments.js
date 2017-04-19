@@ -72,3 +72,17 @@ export function getUncompApps() {
     resolve();
   });
 }
+
+export function getRecordById() {
+  return new Promise((resolve, reject) => {
+    resolve({
+      appointment_id: 1,
+      weight: 1,
+      height: 1,
+      blood_pressure: 1,
+      visit_reason: '',
+      treatment_content: '',
+      prescription: '',
+    });
+  });
+}
