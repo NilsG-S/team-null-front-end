@@ -19,14 +19,16 @@ class Calendar extends React.Component {
     super(props);
     this.monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long' });
 
+    this.backHandler = this.backHandler.bind(this);
+    this.nextHandler = this.nextHandler.bind(this);
+  }
+
+  componentWillMount() {
     const date = new Date();
     this.props.dispatch(setDate({
       year: date.getFullYear(),
       month: date.getMonth(),
     }));
-
-    this.backHandler = this.backHandler.bind(this);
-    this.nextHandler = this.nextHandler.bind(this);
   }
 
   backHandler() {

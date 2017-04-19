@@ -54,7 +54,7 @@ export function dateToKey(date) {
   });
 }
 
-export function getAll() {
+export function getUncompApps() {
   return new Promise((resolve, reject) => {
     const map = new Map();
 

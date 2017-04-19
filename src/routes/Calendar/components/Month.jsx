@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getAll } from 'server/appointments.js';
+import { getUncompApps } from 'server/appointments.js';
 import Week from './Week.jsx';
 import Weekdays from './Weekdays.jsx';
 
@@ -37,7 +37,7 @@ class Month extends React.Component {
       TODO: (NilsG-S) Call different functions depending on filters and auth
       state. These should be gotten from the redux store.
     */
-    getAll();
+    getUncompApps();
   }
 
   calcDate(week) {
