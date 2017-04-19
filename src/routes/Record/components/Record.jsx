@@ -23,19 +23,34 @@ class Record extends React.Component {
     );
 
     this.appointment = this.props.appointments.get(server.dateToKey(date));
-    this.record = server.getRecordById(this.appointment.id);
+    this.record = null;
     this.state = {
-      weight: this.record.weight,
-      height: this.record.height,
-      blood_pressure: this.record.weight,
-      visit_reason: this.record.visit_reason,
-      treatment_content: this.record.treatment_content,
-      prescription: this.record.prescription,
+      weight: 0,
+      height: 0,
+      blood_pressure: 0,
+      visit_reason: '',
+      treatment_content: '',
+      prescription: '',
     };
 
     this.handleNumberChange = this.handleNumberChange.bind(this);
     this.handleStringChange = this.handleStringChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    server.getRecordById(this.appointment.id).then((record) => {
+      this.record = record;
+
+      this.setState({
+        weight: record.weight,
+        height: record.height,
+        blood_pressure: record.weight,
+        visit_reason: record.visit_reason,
+        treatment_content: record.treatment_content,
+        prescription: record.prescription,
+      });
+    });
   }
 
   handleNumberChange(event) {
