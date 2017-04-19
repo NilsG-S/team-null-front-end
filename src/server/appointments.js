@@ -14,7 +14,7 @@ function genDates() {
         minutes = k * 30;
 
         array.push({
-          appointment_id: id,
+          id: id,
           employee_id: 1,
           patient_id: 1,
           date_time: new Date(year, month, i, j, minutes),
@@ -31,7 +31,7 @@ function genDates() {
       minutes = k * 30;
 
       array.push({
-        appointment_id: id,
+        id: id,
         employee_id: 1,
         patient_id: 1,
         date_time: new Date(year, month, 7, j, minutes),
@@ -60,7 +60,7 @@ export function getAll() {
 
     genDates().forEach((element) => {
       map.set(dateToKey(element.date_time), {
-        appointment_id: element.appointment_id,
+        id: element.id,
         employee_id: element.employee_id,
         patient_id: element.patient_id,
         date_time: element.date_time,

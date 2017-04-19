@@ -23,7 +23,7 @@ export const AuthStates = {
 };
 
 export const employee = {
-  employee_id: 0,
+  id: 0,
   first_name: '',
   last_name: '',
   type: AuthStates.GUEST,
