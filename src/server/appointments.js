@@ -1,49 +1,6 @@
 import { cacheAppointments } from 'redux/actions.js';
 import { store } from 'AppConfig.jsx';
-
-function genDates() {
-  const year = 2017;
-  const month = 3;
-  const array = [];
-  let id = 1;
-  let minutes;
-
-  for (let i = 3; i < 7; i += 1) {
-    for (let j = 8; j < 17; j += 1) {
-      for (let k = 0; k < 2; k += 1) {
-        minutes = k * 30;
-
-        array.push({
-          id: id,
-          employee_id: 1,
-          patient_id: 1,
-          date_time: new Date(year, month, i, j, minutes),
-          completed: 2,
-        });
-
-        id += 1;
-      }
-    }
-  }
-
-  for (let j = 8; j < 13; j += 1) {
-    for (let k = 0; k < 2; k += 1) {
-      minutes = k * 30;
-
-      array.push({
-        id: id,
-        employee_id: 1,
-        patient_id: 1,
-        date_time: new Date(year, month, 7, j, minutes),
-        completed: 2,
-      });
-
-      id += 1;
-    }
-  }
-
-  return array;
-}
+import { url } from './utils.js';
 
 export function dateToKey(date) {
   return date.toLocaleString('en-US', {
@@ -54,35 +11,67 @@ export function dateToKey(date) {
   });
 }
 
-export function getUncompApps() {
+export function modifyApp(id, request) {
   return new Promise((resolve, reject) => {
-    const map = new Map();
-
-    genDates().forEach((element) => {
-      map.set(dateToKey(element.date_time), {
-        id: element.id,
-        employee_id: element.employee_id,
-        patient_id: element.patient_id,
-        date_time: element.date_time,
-        completed: element.completed,
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', `${url}appointments/${id}`);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(JSON.parse(xhr.response));
+      } else {
+        reject({
+          status: xhr.status,
+          statusText: xhr.statusText,
+        });
+      }
+    };
+    xhr.onerror = () => {
+      reject({
+        status: xhr.status,
+        statusText: xhr.statusText,
       });
-    });
-
-    store.dispatch(cacheAppointments(map));
-    resolve();
+    };
+    xhr.send(JSON.stringify(request));
   });
 }
 
-export function getRecordById() {
+export function getUncompApps(month) {
   return new Promise((resolve, reject) => {
-    resolve({
-      appointment_id: 1,
-      weight: 1,
-      height: 1,
-      blood_pressure: 1,
-      visit_reason: '',
-      treatment_content: '',
-      prescription: '',
-    });
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `${url}appointments/uncompleted/${month}`);
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const map = new Map();
+        let date;
+
+        JSON.parse(xhr.response).forEach((element) => {
+          date = new Date(element.date_time);
+
+          map.set(dateToKey(date), {
+            id: element.id,
+            employee_id: element.employee_id,
+            patient_id: element.patient_id,
+            date_time: date,
+            completed: element.completed,
+          });
+        });
+
+        store.dispatch(cacheAppointments(map));
+        resolve(map);
+      } else {
+        reject({
+          status: xhr.status,
+          statusText: xhr.statusText,
+        });
+      }
+    };
+    xhr.onerror = () => {
+      reject({
+        status: xhr.status,
+        statusText: xhr.statusText,
+      });
+    };
+    xhr.send();
   });
 }
