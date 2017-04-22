@@ -7,7 +7,7 @@ import Box from 'grommet/components/Box';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 
-import { dateToKey } from 'server/appointments.js';
+import { dateToKey } from 'server';
 import { setDate, AuthStates, toggleEdit } from 'redux/actions.js';
 
 class Schedule extends React.Component {

@@ -9,7 +9,7 @@ import FormField from 'grommet/components/FormField';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 
-import { dateToKey } from 'server/appointments.js';
+import { dateToKey } from 'server';
 import { toggleEdit } from 'redux/actions.js';
 import protectRoute from 'utilities/ProtectRoute.jsx';
 import Schedule from 'routes/Calendar/components/Schedule.jsx';
