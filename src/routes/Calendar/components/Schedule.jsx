@@ -28,17 +28,13 @@ class Schedule extends React.Component {
     }
 
     this.makeItem = this.makeItem.bind(this);
-    this.handleClick = this.handleClick.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
 
-  handleClick(event) {
-    const children = event.target.childNodes;
-    const key = children[0].innerHTML.split(':');
-
+  handleClick(index) {
     this.props.dispatch(setDate({
-      hour: parseInt(key[0], 10),
-      minute: parseInt(key[1], 10),
+      hour: this.times[index].hour,
+      minute: this.times[index].minute,
     }));
 
     if (this.props.edit) {
@@ -61,7 +57,7 @@ class Schedule extends React.Component {
     }
   }
 
-  makeItem(element) {
+  makeItem(element, index) {
     const hour = element.hour;
     const minute = element.minute;
     const date = new Date(
@@ -73,8 +69,8 @@ class Schedule extends React.Component {
     );
     let color = null;
     let available = null;
-    let click = this.handleClick;
-    const key = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' });
+    let click = this.handleClick.bind(this, index);
+    const time = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' });
     const textStyle = {};
 
     if (this.props.appointments.has(dateToKey(date))) {
@@ -94,7 +90,7 @@ class Schedule extends React.Component {
 
     return (
       <ListItem
-        key={key}
+        key={index}
         colorIndex={color}
         onClick={click}
         responsive={false}
@@ -102,7 +98,7 @@ class Schedule extends React.Component {
         direction='row'
       >
         <span style={textStyle}>
-          {key}
+          {time}
         </span>
         <span style={textStyle}>
           {available}
