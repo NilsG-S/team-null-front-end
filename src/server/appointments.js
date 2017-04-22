@@ -1,15 +1,6 @@
 import { cacheAppointments } from 'redux/actions.js';
 import { store } from 'AppConfig.jsx';
-import { url } from './utils.js';
-
-export function dateToKey(date) {
-  return date.toLocaleString('en-US', {
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-  });
-}
+import { url, dateToKey } from './utils.js';
 
 export function modifyApp(id, request) {
   return new Promise((resolve, reject) => {
