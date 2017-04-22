@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { dateToKey } from 'server/appointments.js';
-import { setDate } from 'redux/actions.js';
+import { setDate, AuthStates } from 'redux/actions.js';
 
 class Day extends React.Component {
   constructor(props) {
@@ -70,24 +70,48 @@ class Day extends React.Component {
 
   checkScheduled() {
     let minutes;
+    let output;
 
-    for (let j = 8; j < 17; j += 1) {
-      for (let k = 0; k < 2; k += 1) {
-        minutes = k * 30;
+    if (this.props.type === AuthStates.DOCTOR ||
+        this.props.type === AuthStates.NURSE) {
+      for (let j = 8; j < 17; j += 1) {
+        for (let k = 0; k < 2; k += 1) {
+          minutes = k * 30;
 
-        if (!this.props.appointments.has(dateToKey(new Date(
-          this.props.date.getFullYear(),
-          this.props.date.getMonth(),
-          this.props.date.getDate(),
-          j,
-          minutes,
-        )))) {
-          return false;
+          if (this.props.appointments.has(dateToKey(new Date(
+            this.props.date.getFullYear(),
+            this.props.date.getMonth(),
+            this.props.date.getDate(),
+            j,
+            minutes,
+          )))) {
+            return true;
+          }
         }
       }
+
+      output = false;
+    } else {
+      for (let j = 8; j < 17; j += 1) {
+        for (let k = 0; k < 2; k += 1) {
+          minutes = k * 30;
+
+          if (!this.props.appointments.has(dateToKey(new Date(
+            this.props.date.getFullYear(),
+            this.props.date.getMonth(),
+            this.props.date.getDate(),
+            j,
+            minutes,
+          )))) {
+            return false;
+          }
+        }
+      }
+
+      output = true;
     }
 
-    return true;
+    return output;
   }
 
   render() {
@@ -148,6 +172,7 @@ Day.propTypes = {
     has: React.PropTypes.func.isRequired,
   }).isRequired,
   edit: React.PropTypes.bool.isRequired,
+  type: React.PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -155,6 +180,7 @@ function mapStateToProps(state) {
     currentDate: state.date,
     appointments: state.appointments,
     edit: state.edit,
+    type: state.user.type,
   };
 }
 
