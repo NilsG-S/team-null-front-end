@@ -37,7 +37,7 @@ class Month extends React.Component {
       TODO: (NilsG-S) Call different functions depending on filters and auth
       state. These should be gotten from the redux store.
     */
-    getUncompApps();
+    getUncompApps(this.props.date.month);
   }
 
   calcDate(week) {
