@@ -10,6 +10,7 @@ import Button from 'grommet/components/Button';
 
 import * as server from 'server';
 import protectRoute from 'utilities/ProtectRoute.jsx';
+import logger from 'logger/logger.js';
 
 class Record extends React.Component {
   constructor(props) {
@@ -25,16 +26,15 @@ class Record extends React.Component {
     this.appointment = this.props.appointments.get(server.dateToKey(date));
     this.record = null;
     this.state = {
-      weight: 0,
-      height: 0,
-      blood_pressure: 0,
-      visit_reason: '',
+      weight: '',
+      height: '',
+      blood_pressure: '',
+      reason: '',
       treatment_content: '',
       prescription: '',
     };
 
-    this.handleNumberChange = this.handleNumberChange.bind(this);
-    this.handleStringChange = this.handleStringChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -42,29 +42,24 @@ class Record extends React.Component {
     server.getRecordById(this.appointment.id).then((record) => {
       this.record = record;
 
+      Object.keys(this.record).forEach((key) => {
+        if (this.record[key] === null) {
+          this.record[key] = '';
+        }
+      });
+
       this.setState({
-        weight: record.weight,
-        height: record.height,
-        blood_pressure: record.weight,
-        visit_reason: record.visit_reason,
-        treatment_content: record.treatment_content,
-        prescription: record.prescription,
+        weight: this.record.weight,
+        height: this.record.height,
+        blood_pressure: this.record.blood_pressure,
+        reason: this.record.reason,
+        treatment_content: this.record.treatment_content,
+        prescription: this.record.prescription,
       });
     });
   }
 
-  handleNumberChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    const final = parseInt(value, 10);
-
-    this.setState({
-      [name]: final,
-    });
-  }
-
-  handleStringChange(event) {
+  handleChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -74,8 +69,36 @@ class Record extends React.Component {
     });
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
+    event.preventDefault();
+    let request;
 
+    if (this.appointment.completed !== 1) {
+      request = Object.assign({}, this.appointment);
+      request.completed = 1;
+      delete request.id;
+
+      server.modifyApp(this.appointment.id, request)
+        .then((response) => {
+          logger.info('Appointment is now complete');
+          this.appointment = response;
+        });
+    }
+
+    request = {
+      weight: parseInt(this.state.weight, 10),
+      height: parseInt(this.state.height, 10),
+      blood_pressure: parseInt(this.state.blood_pressure, 10),
+      reason: this.state.reason,
+      treatment_content: this.state.treatment_content,
+      prescription: this.state.prescription,
+    };
+
+    server.modifyRecord(this.record.appointment_id, request)
+      .then((response) => {
+        logger.info('Record was modified');
+        this.record = response;
+      });
   }
 
   render() {
@@ -99,7 +122,7 @@ class Record extends React.Component {
                 name='weight'
                 type='text'
                 value={this.state.weight}
-                onChange={this.handleNumberChange}
+                onChange={this.handleChange}
               />
             </FormField>
             <FormField label='Height'>
@@ -107,7 +130,7 @@ class Record extends React.Component {
                 name='height'
                 type='text'
                 value={this.state.height}
-                onChange={this.handleNumberChange}
+                onChange={this.handleChange}
               />
             </FormField>
             <FormField label='Blood Pressure'>
@@ -115,28 +138,28 @@ class Record extends React.Component {
                 name='blood_pressure'
                 type='text'
                 value={this.state.blood_pressure}
-                onChange={this.handleNumberChange}
+                onChange={this.handleChange}
               />
             </FormField>
             <FormField label='Visit Reason'>
               <textarea
-                name='visit_reason'
-                value={this.state.visit_reason}
-                onChange={this.handleStringChange}
+                name='reason'
+                value={this.state.reason}
+                onChange={this.handleChange}
               />
             </FormField>
             <FormField label='Treatment Content'>
               <textarea
                 name='treatment_content'
                 value={this.state.treatment_content}
-                onChange={this.handleStringChange}
+                onChange={this.handleChange}
               />
             </FormField>
             <FormField label='Prescription'>
               <textarea
                 name='prescription'
                 value={this.state.prescription}
-                onChange={this.handleStringChange}
+                onChange={this.handleChange}
               />
             </FormField>
           </fieldset>
