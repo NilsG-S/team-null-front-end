@@ -4,7 +4,7 @@
   "description": "Hospital management software",
   "main": "src/index.jsx",
   "scripts": {
-    "start": "webpack-dev-server --env=dev",
+    "start": "webpack-dev-server --env=dev --progress",
     "build": "webpack --env=prod",
     "test": "karma start karma.conf.js",
     "lint": "node_modules/.bin/eslint src test"
