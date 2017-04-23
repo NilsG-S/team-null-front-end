@@ -8,11 +8,11 @@ class WeekendDay extends React.Component {
       justifyContent: 'flex-start',
       alignItems: 'flex-start',
       padding: '10px',
-      backgroundColor: '#865cd6',
+      backgroundColor: '#FFFFFF',
     };
 
     const textStyle = {
-      color: '#FFFFFF',
+      color: '#000001',
     };
 
     return (

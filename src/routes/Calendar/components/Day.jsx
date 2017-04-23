@@ -2,16 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { dateToKey } from 'server/appointments.js';
 import { setDate, AuthStates } from 'redux/actions.js';
+import { oneFree, oneFilled } from 'utilities/check-day.js';
 
 class Day extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       boxShadow: '0px 0px 3px rgba(0, 0, 0, 0)',
-      scheduled: this.checkScheduled(),
-      month: this.checkMonth(),
+      scheduled: false,
+      month: false,
     };
 
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
@@ -19,19 +19,16 @@ class Day extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    this.onUpdate(() => {
-      if (prevProps.appointments !== this.props.appointments) {
-        this.setState({
-          scheduled: this.checkScheduled(),
-          month: this.checkMonth(),
-        });
-      }
-    });
+  componentWillMount() {
+    this.checkScheduled();
+    this.checkMonth();
   }
 
-  onUpdate(callback) {
-    callback();
+  componentDidUpdate(prevProps) {
+    if (prevProps.appointments !== this.props.appointments) {
+      this.checkScheduled();
+      this.checkMonth();
+    }
   }
 
   handleMouseLeave() {
@@ -59,59 +56,28 @@ class Day extends React.Component {
   }
 
   checkMonth() {
-    let month = true;
-
     if (this.props.date.getMonth() !== this.props.currentDate.month) {
-      month = false;
+      this.setState({
+        month: false,
+      });
+    } else {
+      this.setState({
+        month: true,
+      });
     }
-
-    return month;
   }
 
   checkScheduled() {
-    let minutes;
-    let output;
-
     if (this.props.type === AuthStates.DOCTOR ||
         this.props.type === AuthStates.NURSE) {
-      for (let j = 8; j < 17; j += 1) {
-        for (let k = 0; k < 2; k += 1) {
-          minutes = k * 30;
-
-          if (this.props.appointments.has(dateToKey(new Date(
-            this.props.date.getFullYear(),
-            this.props.date.getMonth(),
-            this.props.date.getDate(),
-            j,
-            minutes,
-          )))) {
-            return true;
-          }
-        }
-      }
-
-      output = false;
+      this.setState({
+        scheduled: oneFilled(this.props.appointments, this.props.date),
+      });
     } else {
-      for (let j = 8; j < 17; j += 1) {
-        for (let k = 0; k < 2; k += 1) {
-          minutes = k * 30;
-
-          if (!this.props.appointments.has(dateToKey(new Date(
-            this.props.date.getFullYear(),
-            this.props.date.getMonth(),
-            this.props.date.getDate(),
-            j,
-            minutes,
-          )))) {
-            return false;
-          }
-        }
-      }
-
-      output = true;
+      this.setState({
+        scheduled: oneFree(this.props.appointments, this.props.date),
+      });
     }
-
-    return output;
   }
 
   render() {
@@ -132,18 +98,15 @@ class Day extends React.Component {
       onClick: this.handleClick,
     };
 
-    if (this.state.scheduled) {
+    if (this.state.scheduled && this.state.month) {
       style.backgroundColor = '#865cd6';
       textStyle.color = '#FFFFFF';
-    }
-
-    if (!this.state.month) {
+      style.boxShadow = this.state.boxShadow;
+    } else {
       active.role = null;
       active.onMouseEnter = null;
       active.onMouseLeave = null;
       active.onClick = null;
-    } else {
-      style.boxShadow = this.state.boxShadow;
     }
 
     return (
