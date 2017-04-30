@@ -11,6 +11,8 @@ export const AppointmentActionTypes = {
   DATE: 'DATE',
   INC: 'INC',
   DEC: 'DEC',
+  FILTER_BY: 'FILTER_BY',
+  FILTER_ID: 'FILTER_ID',
 };
 
 // Register.js uses AuthStates to set the database values for role.
@@ -20,6 +22,11 @@ export const AuthStates = {
   NURSE: 2,
   STAFF: 3,
   CEO: 4,
+};
+
+export const filterStates = {
+  PATIENT: 1,
+  DOCTOR: 2,
 };
 
 export const employee = {
@@ -36,6 +43,11 @@ export const defaultDate = {
   day: 0,
   hour: 0,
   minute: 0,
+};
+
+export const defaultFilter = {
+  filterBy: filterStates.DOCTOR,
+  id: 0,
 };
 
 // action creators
@@ -82,5 +94,19 @@ export function incMonth() {
 export function decMonth() {
   return {
     type: AppointmentActionTypes.DEC,
+  };
+}
+
+export function filterBy(by) {
+  return {
+    type: AppointmentActionTypes.FILTER_BY,
+    by,
+  };
+}
+
+export function filterId(id) {
+  return {
+    type: AppointmentActionTypes.FILTER_ID,
+    id,
   };
 }
