@@ -1,6 +1,7 @@
 import { dateToKey } from 'server';
 
 export const CALENDAR_PATHS = {
+  RECORD: '/record',
   DOCTOR_CALENDAR: '/calendar',
   DOCTOR_SCHEDULE: '/calendar/schedule',
   PATIENT: '/patient',

@@ -45,7 +45,7 @@ class Schedule extends React.Component {
         this.props.history.push(CALENDAR_PATHS.APPOINTMENT);
         break;
       case CALENDAR_PATHS.DOCTOR_SCHEDULE:
-        this.props.history.push(CALENDAR_PATHS.PATIENT);
+        this.props.history.push(CALENDAR_PATHS.RECORD);
         break;
       case CALENDAR_PATHS.APPOINTMENT_SCHEDULE:
         this.props.history.push(CALENDAR_PATHS.APPOINTMENT);
