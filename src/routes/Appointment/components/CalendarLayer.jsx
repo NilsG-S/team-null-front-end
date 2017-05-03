@@ -11,7 +11,7 @@ import CaretNext from 'grommet/components/icons/base/CaretNext';
 import Title from 'grommet/components/Title';
 
 import { incMonth, decMonth, toggleEdit } from 'redux/actions.js';
-import Month from 'routes/Calendar/components/Month.jsx';
+import Month from 'components/Month/Month.jsx';
 
 class CalendarLayer extends React.Component {
   constructor(props) {
