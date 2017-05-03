@@ -4,30 +4,30 @@ import { store } from 'AppConfig.jsx';
 const employees = {
   1: {
     id: 1,
-    first_name: 'Doctor',
-    last_name: 'Test',
-    type: AuthStates.DOCTOR,
-    associated_id: 2,
-  },
-  2: {
-    id: 2,
-    first_name: 'Nurse',
-    last_name: 'Test',
-    type: AuthStates.NURSE,
-    associated_id: 1,
-  },
-  3: {
-    id: 3,
-    first_name: 'Staff',
-    last_name: 'Test',
-    type: AuthStates.STAFF,
-    associated_id: null,
-  },
-  4: {
-    id: 4,
     first_name: 'CEO',
     last_name: 'Test',
     type: AuthStates.CEO,
+    associated_id: null,
+  },
+  2: {
+    id: 2,
+    first_name: 'Doctor',
+    last_name: 'Test',
+    type: AuthStates.DOCTOR,
+    associated_id: 3,
+  },
+  3: {
+    id: 3,
+    first_name: 'Nurse',
+    last_name: 'Test',
+    type: AuthStates.NURSE,
+    associated_id: 2,
+  },
+  4: {
+    id: 4,
+    first_name: 'Staff',
+    last_name: 'Test',
+    type: AuthStates.STAFF,
     associated_id: null,
   },
 };
