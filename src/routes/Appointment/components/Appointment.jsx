@@ -12,8 +12,8 @@ import Button from 'grommet/components/Button';
 import { dateToKey } from 'server';
 import { toggleEdit } from 'redux/actions.js';
 import protectRoute from 'utilities/ProtectRoute.jsx';
-import Schedule from 'routes/Calendar/components/Schedule.jsx';
-import CalendarLayer from './CalendarLayer.jsx';
+import Schedule from 'components/Schedule/Schedule.jsx';
+import AppCalendar from './AppCalendar.jsx';
 
 class Appointment extends React.Component {
   constructor(props) {
@@ -173,7 +173,7 @@ class Appointment extends React.Component {
           </Footer>
         </Form>
 
-        <Route path='/appointment/calendar' component={CalendarLayer} />
+        <Route path='/appointment/calendar' component={AppCalendar} />
         <Route path='/appointment/schedule' component={Schedule} />
       </Box>
     );
