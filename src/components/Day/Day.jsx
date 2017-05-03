@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import logger from 'logger/logger.js';
 import { setDate } from 'redux/actions.js';
-import { oneFree, oneFilled } from 'utilities/calendar.js';
+import { oneFree, oneFilled, CALENDAR_PATHS } from 'utilities/calendar.js';
 
 class Day extends React.Component {
   constructor(props) {
@@ -48,14 +48,14 @@ class Day extends React.Component {
     }));
 
     switch (location) {
-      case '/patients/calendar':
-        this.props.history.push('/patients/schedule');
+      case CALENDAR_PATHS.PATIENT_CALENDAR:
+        this.props.history.push(CALENDAR_PATHS.PATIENT_SCHEDULE);
         break;
-      case '/calendar':
-        this.props.history.push('/calendar/schedule');
+      case CALENDAR_PATHS.DOCTOR_CALENDAR:
+        this.props.history.push(CALENDAR_PATHS.DOCTOR_SCHEDULE);
         break;
-      case '/appointments/calendar':
-        this.props.history.push('/appointment/schedule');
+      case CALENDAR_PATHS.APPOINTMENT_CALENDAR:
+        this.props.history.push(CALENDAR_PATHS.APPOINTMENT_SCHEDULE);
         break;
       default:
         logger.error(`No such path exists (Day.jsx): ${location}`);
@@ -68,13 +68,13 @@ class Day extends React.Component {
     let day;
 
     switch (location) {
-      case '/patients/calendar':
+      case CALENDAR_PATHS.PATIENT_CALENDAR:
         day = oneFilled(this.props.appointments, this.props.date);
         break;
-      case '/calendar':
+      case CALENDAR_PATHS.DOCTOR_CALENDAR:
         day = oneFilled(this.props.appointments, this.props.date);
         break;
-      case '/appointments/calendar':
+      case CALENDAR_PATHS.APPOINTMENT_CALENDAR:
         day = oneFree(this.props.appointments, this.props.date);
         break;
       default:
