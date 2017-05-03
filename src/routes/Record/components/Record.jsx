@@ -146,6 +146,7 @@ class Record extends React.Component {
                 name='reason'
                 value={this.state.reason}
                 onChange={this.handleChange}
+                maxLength='50'
               />
             </FormField>
             <FormField label='Treatment Content'>
@@ -153,6 +154,7 @@ class Record extends React.Component {
                 name='treatment_content'
                 value={this.state.treatment_content}
                 onChange={this.handleChange}
+                maxLength='50'
               />
             </FormField>
             <FormField label='Prescription'>
@@ -160,6 +162,7 @@ class Record extends React.Component {
                 name='prescription'
                 value={this.state.prescription}
                 onChange={this.handleChange}
+                maxLength='50'
               />
             </FormField>
           </fieldset>
