@@ -13,7 +13,7 @@ import { setDate, incMonth, decMonth, AuthStates } from 'redux/actions.js';
 import protectRoute from 'utilities/ProtectRoute.jsx';
 import { getUncompAppsByDoctor } from 'server';
 import Month from 'components/Month/Month.jsx';
-import Schedule from './Schedule.jsx';
+import Schedule from 'components/Schedule/Schedule.jsx';
 
 class Calendar extends React.Component {
   constructor(props) {
