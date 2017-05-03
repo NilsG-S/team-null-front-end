@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import logger from 'logger/logger.js';
 import { setDate } from 'redux/actions.js';
@@ -64,7 +65,7 @@ class Day extends React.Component {
 
   checkActive() {
     const location = this.props.location.pathname;
-    const month = this.props.date.getMonth() !== this.props.currentDate.month;
+    const month = this.props.date.getMonth() === this.props.currentDate.month;
     let day;
 
     switch (location) {
@@ -152,4 +153,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Day);
+export default connect(mapStateToProps)(withRouter(Day));
