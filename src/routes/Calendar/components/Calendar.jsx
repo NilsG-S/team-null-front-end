@@ -9,9 +9,10 @@ import CaretBack from 'grommet/components/icons/base/CaretBack';
 import CaretNext from 'grommet/components/icons/base/CaretNext';
 import Title from 'grommet/components/Title';
 
-import { setDate, incMonth, decMonth } from 'redux/actions.js';
+import { setDate, incMonth, decMonth, AuthStates } from 'redux/actions.js';
 import protectRoute from 'utilities/ProtectRoute.jsx';
-import Month from './Month.jsx';
+import { getUncompAppsByDoctor } from 'server';
+import Month from 'components/Month/Month.jsx';
 import Schedule from './Schedule.jsx';
 
 class Calendar extends React.Component {
@@ -29,6 +30,24 @@ class Calendar extends React.Component {
       year: date.getFullYear(),
       month: date.getMonth(),
     }));
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.date.month !== this.props.date.month) {
+      this.getAppointments();
+    }
+  }
+
+  getAppointments() {
+    let id;
+
+    if (this.props.user.type === AuthStates.DOCTOR) {
+      id = this.props.user.id;
+    } else {
+      id = this.props.user.associated_id;
+    }
+
+    getUncompAppsByDoctor(id, this.props.date.month);
   }
 
   backHandler() {
@@ -91,6 +110,11 @@ Calendar.propTypes = {
     year: React.PropTypes.number.isRequired,
     month: React.PropTypes.number.isRequired,
   }).isRequired,
+  user: React.PropTypes.shape({
+    id: React.PropTypes.number.isRequired,
+    type: React.PropTypes.number.isRequired,
+    associated_id: React.PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 const required = {
@@ -104,6 +128,7 @@ const required = {
 function mapStateToProps(state) {
   return {
     date: state.date,
+    user: state.user,
   };
 }
 
