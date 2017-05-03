@@ -84,7 +84,7 @@ class Schedule extends React.Component {
       minute,
     );
     let color = null;
-    let available = null;
+    let available = 'scheduled';
     let click = this.handleClick.bind(this, index);
     const time = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' });
     const textStyle = {};
@@ -97,6 +97,7 @@ class Schedule extends React.Component {
           test = true;
         } else {
           test = false;
+          available = 'unscheduled';
         }
 
         break;
@@ -105,6 +106,7 @@ class Schedule extends React.Component {
           test = true;
         } else {
           test = false;
+          available = 'unscheduled';
         }
 
         break;
@@ -113,6 +115,7 @@ class Schedule extends React.Component {
           test = false;
         } else {
           test = true;
+          available = 'unscheduled';
         }
 
         break;
@@ -122,12 +125,10 @@ class Schedule extends React.Component {
 
     if (test) {
       color = 'brand';
-      available = 'scheduled';
       textStyle.color = '#FFFFFF';
     } else {
       click = null;
       color = 'light-1';
-      available = 'unscheduled';
       textStyle.color = '#000001';
     }
 
