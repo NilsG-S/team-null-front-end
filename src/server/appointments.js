@@ -154,7 +154,7 @@ export function createApp(newApp) {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response.getResponseHeader('Location'));
+        resolve();
       } else {
         reject({
           status: xhr.status,

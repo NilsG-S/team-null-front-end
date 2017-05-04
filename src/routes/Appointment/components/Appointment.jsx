@@ -9,6 +9,7 @@ import FormField from 'grommet/components/FormField';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 
+import logger from 'logger/logger.js';
 import * as server from 'server';
 import protectRoute from 'utilities/ProtectRoute.jsx';
 import Schedule from 'components/Schedule/Schedule.jsx';
@@ -44,7 +45,24 @@ class Appointment extends React.Component {
   }
 
   handleCreate() {
-
+    server.createApp({
+      employee_id: this.props.doctorId,
+      patient_id: this.props.patientId,
+      date_time: new Date(
+        this.props.date.year,
+        this.props.date.month,
+        this.props.date.day,
+        this.props.date.hour,
+        this.props.date.minute,
+      ),
+    })
+      .then(() => {
+        logger.info('Appointment created');
+        this.props.history.push('/patients');
+      })
+      .catch((error) => {
+        logger.error(`Error creating appointment: ${error.statusText}`);
+      });
   }
 
   handleEdit() {
@@ -56,7 +74,7 @@ class Appointment extends React.Component {
   }
 
   handleCancel() {
-
+    this.props.history.push('/patients');
   }
 
   render() {
