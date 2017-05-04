@@ -45,13 +45,18 @@ class AppCalendar extends React.Component {
       this.setState({
         doctors,
         options,
+        select: options[0],
       });
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.select !== this.state.select && this.state.select !== 0) {
-      const id = this.state.doctors.get(this.state.select).id;
+    const id = this.state.doctors.get(this.state.select).id;
+
+    if (prevState.select !== this.state.select) {
+      this.props.dispatch(setDoctorId(id));
+      getUncompAppsByDoctor(id, this.props.date.month);
+    } else if (prevProps.date.month !== this.props.date.month) {
       this.props.dispatch(setDoctorId(id));
       getUncompAppsByDoctor(id, this.props.date.month);
     }

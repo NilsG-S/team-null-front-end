@@ -9,6 +9,7 @@ import FormField from 'grommet/components/FormField';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 
+import { setDate } from 'redux/actions.js';
 import logger from 'logger/logger.js';
 import * as server from 'server';
 import protectRoute from 'utilities/ProtectRoute.jsx';
@@ -37,6 +38,19 @@ class Appointment extends React.Component {
     this.handleCreate = this.handleCreate.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  componentWillMount() {
+    if (this.appointment === undefined) {
+      const date = new Date();
+      this.props.dispatch(setDate({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        day: date.getDate(),
+        hour: 8,
+        minute: 0,
+      }));
+    }
   }
 
   setDate() {
@@ -199,6 +213,7 @@ class Appointment extends React.Component {
 }
 
 Appointment.propTypes = {
+  dispatch: React.PropTypes.func.isRequired,
   date: React.PropTypes.shape({
     year: React.PropTypes.number.isRequired,
     month: React.PropTypes.number.isRequired,
