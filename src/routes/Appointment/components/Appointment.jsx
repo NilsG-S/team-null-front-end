@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Box from 'grommet/components/Box';
@@ -9,7 +9,7 @@ import FormField from 'grommet/components/FormField';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 
-import { dateToKey } from 'server';
+import * as server from 'server';
 import protectRoute from 'utilities/ProtectRoute.jsx';
 import Schedule from 'components/Schedule/Schedule.jsx';
 import AppCalendar from './AppCalendar.jsx';
@@ -17,29 +17,15 @@ import AppCalendar from './AppCalendar.jsx';
 class Appointment extends React.Component {
   constructor(props) {
     super(props);
-    const date = new Date(
+    this.appointment = this.props.appointments.get(server.dateToKey(new Date(
       this.props.date.year,
       this.props.date.month,
       this.props.date.day,
       this.props.date.hour,
       this.props.date.minute,
-    );
-
-    this.appointment = this.props.appointments.get(dateToKey(date));
-    if (this.appointment !== undefined) {
-      this.state = {
-        doctor: this.appointment.employee_id,
-        patient: this.appointment.patient_id,
-      };
-    } else {
-      this.state = {
-        doctor: '',
-        patient: '',
-      };
-    }
+    )));
 
     this.setDate = this.setDate.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -48,16 +34,6 @@ class Appointment extends React.Component {
 
   setDate() {
     this.props.history.push('/appointment/calendar');
-  }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value,
-    });
   }
 
   handleCreate() {
@@ -136,16 +112,16 @@ class Appointment extends React.Component {
               <input
                 name='doctor'
                 type='text'
-                value={this.state.doctor}
-                onChange={this.handleInputChange}
+                value={this.props.doctorId}
+                disabled
               />
             </FormField>
             <FormField label='Patient'>
               <input
                 name='patient'
                 type='text'
-                value={this.state.patient}
-                onChange={this.handleInputChange}
+                value={this.props.patientId}
+                disabled
               />
             </FormField>
           </fieldset>
@@ -189,11 +165,12 @@ Appointment.propTypes = {
   history: React.PropTypes.shape({
     push: React.PropTypes.func.isRequired,
   }).isRequired,
-  dispatch: React.PropTypes.func.isRequired,
   appointments: React.PropTypes.shape({
     has: React.PropTypes.func.isRequired,
     get: React.PropTypes.func.isRequired,
   }).isRequired,
+  doctorId: React.PropTypes.number.isRequired,
+  patientId: React.PropTypes.number.isRequired,
 };
 
 const required = {
@@ -208,7 +185,9 @@ function mapStateToProps(state) {
   return {
     date: state.date,
     appointments: state.appointments,
+    doctorId: state.doctorId,
+    patientId: state.patientId,
   };
 }
 
-export default protectRoute(connect(mapStateToProps)(withRouter(Appointment)), required);
+export default protectRoute(connect(mapStateToProps)(Appointment), required);
