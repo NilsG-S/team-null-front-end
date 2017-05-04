@@ -10,7 +10,7 @@ import CaretNext from 'grommet/components/icons/base/CaretNext';
 import Title from 'grommet/components/Title';
 import Select from 'grommet/components/Select';
 
-import { incMonth, decMonth } from 'redux/actions.js';
+import { incMonth, decMonth, setDoctorId } from 'redux/actions.js';
 import { getAllDoctors, getUncompAppsByDoctor } from 'server';
 import Month from 'components/Month/Month.jsx';
 
@@ -52,6 +52,7 @@ class AppCalendar extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.select !== this.state.select && this.state.select !== 0) {
       const id = this.state.doctors.get(this.state.select).id;
+      this.props.dispatch(setDoctorId(id));
       getUncompAppsByDoctor(id, this.props.date.month);
     }
   }

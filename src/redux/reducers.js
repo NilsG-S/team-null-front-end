@@ -64,11 +64,21 @@ function date(state = defaultDate, action) {
   }
 }
 
+function doctorId(state = 0, action) {
+  switch (action.type) {
+    case AppointmentActionTypes.DOC_ID:
+      return action.id;
+    default:
+      return state;
+  }
+}
+
 function healthApp(state = {}, action) {
   return {
     user: user(state.user, action),
     appointments: appointments(state.appointments, action),
     date: date(state.date, action),
+    doctorId: doctorId(state.doctorId, action),
   };
 }
 
