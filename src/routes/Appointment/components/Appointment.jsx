@@ -10,7 +10,6 @@ import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 
 import { dateToKey } from 'server';
-import { toggleEdit } from 'redux/actions.js';
 import protectRoute from 'utilities/ProtectRoute.jsx';
 import Schedule from 'components/Schedule/Schedule.jsx';
 import AppCalendar from './AppCalendar.jsx';
@@ -48,7 +47,6 @@ class Appointment extends React.Component {
   }
 
   setDate() {
-    this.props.dispatch(toggleEdit());
     this.props.history.push('/appointment/calendar');
   }
 

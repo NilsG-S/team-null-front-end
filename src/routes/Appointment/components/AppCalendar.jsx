@@ -10,7 +10,7 @@ import CaretNext from 'grommet/components/icons/base/CaretNext';
 import Title from 'grommet/components/Title';
 import Select from 'grommet/components/Select';
 
-import { incMonth, decMonth, toggleEdit } from 'redux/actions.js';
+import { incMonth, decMonth } from 'redux/actions.js';
 import { getAllDoctors, getUncompAppsByDoctor } from 'server';
 import Month from 'components/Month/Month.jsx';
 
@@ -67,7 +67,6 @@ class AppCalendar extends React.Component {
   }
 
   handleClose() {
-    this.props.dispatch(toggleEdit());
     this.props.history.push('/appointment');
   }
 
