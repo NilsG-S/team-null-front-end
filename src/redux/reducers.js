@@ -73,12 +73,22 @@ function doctorId(state = 0, action) {
   }
 }
 
+function patientId(state = 0, action) {
+  switch (action.type) {
+    case AppointmentActionTypes.PAT_ID:
+      return action.id;
+    default:
+      return state;
+  }
+}
+
 function healthApp(state = {}, action) {
   return {
     user: user(state.user, action),
     appointments: appointments(state.appointments, action),
     date: date(state.date, action),
     doctorId: doctorId(state.doctorId, action),
+    patientId: patientId(state.patientId, action),
   };
 }
 
