@@ -66,7 +66,25 @@ class Appointment extends React.Component {
   }
 
   handleEdit() {
-
+    server.modifyApp(this.appointment.id, {
+      employee_id: this.props.doctorId,
+      patient_id: this.props.patientId,
+      date_time: new Date(
+        this.props.date.year,
+        this.props.date.month,
+        this.props.date.day,
+        this.props.date.hour,
+        this.props.date.minute,
+      ),
+      complete: 2,
+    })
+      .then((app) => {
+        logger.info(`Appointment ${app.id} was modified`);
+        this.props.history.push('/patients');
+      })
+      .catch((error) => {
+        logger.error(`Error modifying appointment: ${error.statusText}`);
+      });
   }
 
   handleDelete() {
