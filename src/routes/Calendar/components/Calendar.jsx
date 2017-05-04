@@ -121,7 +121,7 @@ const required = {
   0: false,
   1: true,
   2: true,
-  3: true,
+  3: false,
   4: false,
 };
 

@@ -51,19 +51,31 @@ class Auth extends React.Component {
         break;
       case AuthStates.CEO:
         output = (
-          <Redirect to="/reports" />
+          <Redirect to='/reports' />
+        );
+
+        break;
+      case AuthStates.STAFF:
+        output = (
+          <Redirect to='/patients' />
         );
 
         break;
       default:
         output = (
-          <Redirect to="/calendar" />
+          <Redirect to='/calendar' />
         );
     }
 
     return output;
   }
 }
+
+Auth.propTypes = {
+  user: React.PropTypes.shape({
+    type: React.PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 function getUser(user) {
   return user;
