@@ -146,3 +146,28 @@ export function getUncompAppsByPatient(uid, month) {
     xhr.send();
   });
 }
+
+export function createApp(newApp) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `${url}appointments`);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.response.getResponseHeader('Location'));
+      } else {
+        reject({
+          status: xhr.status,
+          statusText: xhr.statusText,
+        });
+      }
+    };
+    xhr.onerror = () => {
+      reject({
+        status: xhr.status,
+        statusText: xhr.statusText,
+      });
+    };
+    xhr.send(JSON.stringify(newApp));
+  });
+}
