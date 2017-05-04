@@ -17,6 +17,13 @@ import AppCalendar from './AppCalendar.jsx';
 class Appointment extends React.Component {
   constructor(props) {
     super(props);
+    this.monthFormatter = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    });
     this.appointment = this.props.appointments.get(server.dateToKey(new Date(
       this.props.date.year,
       this.props.date.month,
@@ -53,14 +60,6 @@ class Appointment extends React.Component {
   }
 
   render() {
-    const date = new Date(
-      this.props.date.year,
-      this.props.date.month,
-      this.props.date.day,
-      this.props.date.hour,
-      this.props.date.minute,
-    );
-
     let passSubmit = this.handleCreate;
     let passCancel = this.handleCancel;
     let submitLabel = 'Submit';
@@ -91,7 +90,13 @@ class Appointment extends React.Component {
               <input
                 name='date'
                 type='text'
-                value={date}
+                value={this.monthFormatter.format(new Date(
+                  this.props.date.year,
+                  this.props.date.month,
+                  this.props.date.day,
+                  this.props.date.hour,
+                  this.props.date.minute,
+                ))}
                 disabled
               />
             </FormField>
