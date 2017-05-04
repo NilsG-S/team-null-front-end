@@ -3,7 +3,6 @@ import {
   AppointmentActionTypes,
   employee,
   defaultDate,
-  defaultFilter,
 } from './actions.js';
 
 function user(state = employee, action) {
@@ -12,15 +11,6 @@ function user(state = employee, action) {
       return action.user;
     case UserActionTypes.LOGOUT:
       return employee;
-    default:
-      return state;
-  }
-}
-
-function edit(state = false, action) {
-  switch (action.type) {
-    case AppointmentActionTypes.EDIT:
-      return !state;
     default:
       return state;
   }
@@ -74,30 +64,11 @@ function date(state = defaultDate, action) {
   }
 }
 
-function filter(state = defaultFilter, action) {
-  switch (action.type) {
-    case AppointmentActionTypes.FILTER_BY:
-      return {
-        filterBy: action.by,
-        id: state.id,
-      };
-    case AppointmentActionTypes.FILTER_ID:
-      return {
-        filterBy: state.filterBy,
-        id: action.id,
-      };
-    default:
-      return state;
-  }
-}
-
 function healthApp(state = {}, action) {
   return {
     user: user(state.user, action),
-    edit: edit(state.edit, action),
     appointments: appointments(state.appointments, action),
     date: date(state.date, action),
-    filter: filter(state.filter, action),
   };
 }
 
