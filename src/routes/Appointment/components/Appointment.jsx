@@ -57,7 +57,9 @@ class Appointment extends React.Component {
     this.props.history.push('/appointment/calendar');
   }
 
-  handleCreate() {
+  handleCreate(event) {
+    event.preventDefault();
+
     server.createApp({
       employee_id: this.props.doctorId,
       patient_id: this.props.patientId,
@@ -78,7 +80,9 @@ class Appointment extends React.Component {
       });
   }
 
-  handleEdit() {
+  handleEdit(event) {
+    event.preventDefault();
+
     server.modifyApp(this.appointment.id, {
       employee_id: this.props.doctorId,
       patient_id: this.props.patientId,
