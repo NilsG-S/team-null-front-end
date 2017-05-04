@@ -88,7 +88,14 @@ class Appointment extends React.Component {
   }
 
   handleDelete() {
-
+    server.deleteApp(this.appointment.id)
+      .then((app) => {
+        logger.info(`Appointment ${app.id} was deleted`);
+        this.props.history.push('/patients');
+      })
+      .catch((error) => {
+        logger.error(`Error deleting appointment: ${error.statusText}`);
+      });
   }
 
   handleCancel() {

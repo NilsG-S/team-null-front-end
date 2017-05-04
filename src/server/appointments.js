@@ -171,3 +171,27 @@ export function createApp(newApp) {
     xhr.send(JSON.stringify(newApp));
   });
 }
+
+export function deleteApp(id) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('DELETE', `${url}appointments/${id}`);
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve();
+      } else {
+        reject({
+          status: xhr.status,
+          statusText: xhr.statusText,
+        });
+      }
+    };
+    xhr.onerror = () => {
+      reject({
+        status: xhr.status,
+        statusText: xhr.statusText,
+      });
+    };
+    xhr.send();
+  });
+}
