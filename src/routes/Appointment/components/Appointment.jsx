@@ -37,7 +37,6 @@ class Appointment extends React.Component {
     this.handleCreate = this.handleCreate.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
   }
 
   setDate() {
@@ -98,20 +97,22 @@ class Appointment extends React.Component {
       });
   }
 
-  handleCancel() {
-    this.props.history.push('/patients');
-  }
-
   render() {
     let passSubmit = this.handleCreate;
-    let passCancel = this.handleCancel;
-    let submitLabel = 'Submit';
-    let cancelLabel = 'Cancel';
+    let submitLabel = 'Create';
+    let deleteButton = null;
+
     if (this.appointment !== undefined) {
       passSubmit = this.handleEdit;
-      passCancel = this.handleDelete;
       submitLabel = 'Modify';
-      cancelLabel = 'Delete';
+      deleteButton = (
+        <Button
+          label={'Delete'}
+          type='button'
+          primary={false}
+          onClick={this.handleDelete}
+        />
+      );
     }
 
     return (
@@ -186,12 +187,7 @@ class Appointment extends React.Component {
               primary
               onClick={passSubmit}
             />
-            <Button
-              label={cancelLabel}
-              type='button'
-              primary={false}
-              onClick={passCancel}
-            />
+            {deleteButton}
           </Footer>
         </Form>
 
