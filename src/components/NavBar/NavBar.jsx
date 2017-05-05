@@ -17,6 +17,18 @@ function NavBar(props) {
     case AuthStates.CEO:
       nav = null;
       break;
+    case AuthStates.STAFF:
+      nav = (
+        <Menu
+          icon={<MenuIcon />}
+          dropAlign={{ left: 'left', top: 'top' }}
+        >
+          <RouterAnchor path='/patients'>
+            Patients
+          </RouterAnchor>
+        </Menu>
+      );
+      break;
     default:
       nav = (
         <Menu
