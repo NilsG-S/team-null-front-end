@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Route } from 'react-router-dom';
 
 import Box from 'grommet/components/Box';
 import Header from 'grommet/components/Header';
@@ -11,6 +12,7 @@ import ListItem from 'grommet/components/ListItem';
 import { setPatientId } from 'redux/actions.js';
 import * as server from 'server';
 import protectRoute from 'utilities/ProtectRoute.jsx';
+import CreatePatient from './CreatePatient.jsx';
 
 class Patients extends React.Component {
   constructor(props) {
@@ -79,6 +81,8 @@ class Patients extends React.Component {
         <List>
           {Array.from(this.props.patients).map(this.makeItem)}
         </List>
+
+        <Route path='/patients/create' component={CreatePatient} />
       </Box>
     );
   }
