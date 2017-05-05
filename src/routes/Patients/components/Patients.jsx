@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Box from 'grommet/components/Box';
+import Header from 'grommet/components/Header';
+import Title from 'grommet/components/Title';
+import Button from 'grommet/components/Button';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 
@@ -14,10 +17,15 @@ class Patients extends React.Component {
     super(props);
 
     this.makeItem = this.makeItem.bind(this);
+    this.handleNew = this.handleNew.bind(this);
   }
 
   componentWillMount() {
     server.getAllPatients();
+  }
+
+  handleNew() {
+    this.props.history.push('/patients/create');
   }
 
   handleClick(value) {
@@ -50,6 +58,24 @@ class Patients extends React.Component {
   render() {
     return (
       <Box full>
+        <Header
+          size='small'
+          flex
+          direction='row'
+          responsive={false}
+          justify='between'
+          pad={{ horizontal: 'small' }}
+        >
+          <Title>
+            Patients
+          </Title>
+          <Button
+            label='New Patient'
+            type='button'
+            primary
+            onClick={this.handleNew}
+          />
+        </Header>
         <List>
           {Array.from(this.props.patients).map(this.makeItem)}
         </List>
