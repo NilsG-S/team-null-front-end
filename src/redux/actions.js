@@ -15,7 +15,7 @@ export const AppointmentActionTypes = {
 };
 
 export const PatientActionTypes = {
-  CACHE: 'CACHE',
+  CACHE: 'PAT_CACHE',
 };
 
 // Register.js uses AuthStates to set the database values for role.
