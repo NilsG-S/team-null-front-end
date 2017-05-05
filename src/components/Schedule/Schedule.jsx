@@ -123,6 +123,11 @@ class Schedule extends React.Component {
         logger.error(`No such path exists (schedule.jsx): ${location}`);
     }
 
+    const current = new Date();
+    if (date.getTime() < current.getTime()) {
+      test = false;
+    }
+
     if (test) {
       color = 'brand';
       textStyle.color = '#FFFFFF';

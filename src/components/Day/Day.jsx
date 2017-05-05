@@ -42,7 +42,7 @@ class Day extends React.Component {
   }
 
   handleClick() {
-    const location = this.props.location.pathname;
+    const location = this.props.history.location.pathname;
 
     this.props.dispatch(setDate({
       day: this.props.date.getDate(),
@@ -64,7 +64,7 @@ class Day extends React.Component {
   }
 
   checkActive() {
-    const location = this.props.location.pathname;
+    const location = this.props.history.location.pathname;
     const month = this.props.date.getMonth() === this.props.currentDate.month;
     let day;
 
@@ -137,12 +137,12 @@ Day.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   history: React.PropTypes.shape({
     push: React.PropTypes.func.isRequired,
+    location: React.PropTypes.shape({
+      pathname: React.PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
   appointments: React.PropTypes.shape({
     has: React.PropTypes.func.isRequired,
-  }).isRequired,
-  location: React.PropTypes.shape({
-    pathname: React.PropTypes.string.isRequired,
   }).isRequired,
 };
 
@@ -153,4 +153,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(withRouter(Day));
+export default withRouter(connect(mapStateToProps)(Day));

@@ -13,20 +13,25 @@ export const CALENDAR_PATHS = {
 };
 
 export function oneFilled(appointments, date) {
+  const current = new Date();
   let minutes;
+  let tempDate;
 
   for (let j = 8; j < 17; j += 1) {
     for (let k = 0; k < 2; k += 1) {
       minutes = k * 30;
-
-      if (appointments.has(dateToKey(new Date(
+      tempDate = new Date(
         date.getFullYear(),
         date.getMonth(),
         date.getDate(),
         j,
         minutes,
-      )))) {
-        return true;
+      );
+
+      if (tempDate.getTime() >= current.getTime()) {
+        if (appointments.has(dateToKey(tempDate))) {
+          return true;
+        }
       }
     }
   }
@@ -35,20 +40,25 @@ export function oneFilled(appointments, date) {
 }
 
 export function oneFree(appointments, date) {
+  const current = new Date();
   let minutes;
+  let tempDate;
 
   for (let j = 8; j < 17; j += 1) {
     for (let k = 0; k < 2; k += 1) {
       minutes = k * 30;
-
-      if (!appointments.has(dateToKey(new Date(
+      tempDate = new Date(
         date.getFullYear(),
         date.getMonth(),
         date.getDate(),
         j,
         minutes,
-      )))) {
-        return true;
+      );
+
+      if (tempDate.getTime() >= current.getTime()) {
+        if (!appointments.has(dateToKey(tempDate))) {
+          return true;
+        }
       }
     }
   }
