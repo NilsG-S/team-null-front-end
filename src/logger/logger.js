@@ -1,7 +1,7 @@
 import bunyan from 'bunyan';
 
 let config = {
-  name: 'CPCEED',
+  name: 'HealthCare System',
   stream: process.stdout,
 };
 

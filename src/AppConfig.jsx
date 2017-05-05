@@ -11,6 +11,8 @@ import healthApp from 'redux/reducers.js';
 import authRoute from './routes/Auth';
 import calendarRoute from './routes/Calendar';
 import reportsRoute from './routes/Reports';
+import Appointment from './routes/Appointment/components/Appointment.jsx';
+import Record from './routes/Record/components/Record.jsx';
 
 // store holds the redux store that allows app-wide state to be shared
 const store = createStore(healthApp);
@@ -31,6 +33,8 @@ const AppConfig = () => (
           {authRoute}
           {calendarRoute}
           {reportsRoute}
+          <Route path='/appointment' component={Appointment} />
+          <Route path='/record' component={Record} />
         </Box>
       </App>
     </HashRouter>

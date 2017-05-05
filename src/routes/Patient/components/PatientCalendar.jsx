@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
 
 import Box from 'grommet/components/Box';
 import Header from 'grommet/components/Header';
@@ -9,13 +8,11 @@ import CaretBack from 'grommet/components/icons/base/CaretBack';
 import CaretNext from 'grommet/components/icons/base/CaretNext';
 import Title from 'grommet/components/Title';
 
-import { setDate, incMonth, decMonth, AuthStates } from 'redux/actions.js';
-import protectRoute from 'utilities/ProtectRoute.jsx';
-import { getUncompAppsByDoctor } from 'server';
+import { setDate, incMonth, decMonth } from 'redux/actions.js';
+import { getUncompAppsByPatient } from 'server';
 import Month from 'components/Month/Month.jsx';
-import Schedule from 'components/Schedule/Schedule.jsx';
 
-class Calendar extends React.Component {
+class PatientCalendar extends React.Component {
   constructor(props) {
     super(props);
     this.monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long' });
@@ -34,20 +31,8 @@ class Calendar extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.date.month !== this.props.date.month) {
-      this.getAppointments();
+      getUncompAppsByPatient(this.props.patientId, this.props.date.month);
     }
-  }
-
-  getAppointments() {
-    let id;
-
-    if (this.props.user.type === AuthStates.DOCTOR) {
-      id = this.props.user.id;
-    } else {
-      id = this.props.user.associated_id;
-    }
-
-    getUncompAppsByDoctor(id, this.props.date.month);
   }
 
   backHandler() {
@@ -97,39 +82,25 @@ class Calendar extends React.Component {
         >
           <Month />
         </Box>
-
-        <Route path='/calendar/schedule' component={Schedule} />
       </Box>
     );
   }
 }
 
-Calendar.propTypes = {
+PatientCalendar.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   date: React.PropTypes.shape({
     year: React.PropTypes.number.isRequired,
     month: React.PropTypes.number.isRequired,
   }).isRequired,
-  user: React.PropTypes.shape({
-    id: React.PropTypes.number.isRequired,
-    type: React.PropTypes.number.isRequired,
-    associated_id: React.PropTypes.number.isRequired,
-  }).isRequired,
-};
-
-const required = {
-  0: false,
-  1: true,
-  2: true,
-  3: false,
-  4: false,
+  patientId: React.PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     date: state.date,
-    user: state.user,
+    patientId: state.patientId,
   };
 }
 
-export default protectRoute(connect(mapStateToProps)(Calendar), required);
+export default connect(mapStateToProps)(PatientCalendar);

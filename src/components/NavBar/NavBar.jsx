@@ -47,7 +47,7 @@ function NavBar(props) {
         flex
         justify='end'
         direction='row'
-        responsive
+        responsive={false}
       >
         <Menu
           dropAlign={{ right: 'right', top: 'top' }}
