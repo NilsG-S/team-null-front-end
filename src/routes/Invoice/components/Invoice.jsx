@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 
 import Box from 'grommet/components/Box';
 import Form from 'grommet/components/Form';
@@ -8,6 +9,7 @@ import Button from 'grommet/components/Button';
 
 import logger from 'logger/logger.js';
 import * as server from 'server';
+import Payment from 'components/Payment/Payment.jsx';
 
 class Invoice extends React.Component {
   constructor(props) {
@@ -72,7 +74,7 @@ class Invoice extends React.Component {
           </Footer>
         </Form>
 
-
+        <Route path='/invoice/payment' component={Payment} />
       </Box>
     );
   }
