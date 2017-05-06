@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Layer from 'grommet/components/Layer';
 import Box from 'grommet/components/Box';
 import Header from 'grommet/components/Header';
 import Button from 'grommet/components/Button';
@@ -17,6 +18,7 @@ class PatientCalendar extends React.Component {
     super(props);
     this.monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long' });
 
+    this.handleClose = this.handleClose.bind(this);
     this.backHandler = this.backHandler.bind(this);
     this.nextHandler = this.nextHandler.bind(this);
   }
@@ -35,6 +37,10 @@ class PatientCalendar extends React.Component {
     }
   }
 
+  handleClose() {
+    this.props.history.push('/patient');
+  }
+
   backHandler() {
     this.props.dispatch(decMonth());
   }
@@ -45,44 +51,51 @@ class PatientCalendar extends React.Component {
 
   render() {
     return (
-      <Box full>
-        <Header
-          size='small'
-          flex
-          direction='row'
-          responsive={false}
-          alignContent='between'
-        >
-          <Button
-            icon={<CaretBack />}
-            onClick={this.backHandler}
-          />
-          <Box
+      <Layer
+        closer
+        flush={false}
+        align='center'
+        onClose={this.handleClose}
+      >
+        <Box full>
+          <Header
+            size='small'
             flex
             direction='row'
             responsive={false}
-            justify='center'
+            alignContent='between'
           >
-            <Title>
-              {this.monthFormatter.format(new Date(
-                this.props.date.year,
-                this.props.date.month,
-              ))} {this.props.date.year}
-            </Title>
+            <Button
+              icon={<CaretBack />}
+              onClick={this.backHandler}
+            />
+            <Box
+              flex
+              direction='row'
+              responsive={false}
+              justify='center'
+            >
+              <Title>
+                {this.monthFormatter.format(new Date(
+                  this.props.date.year,
+                  this.props.date.month,
+                ))} {this.props.date.year}
+              </Title>
+            </Box>
+            <Button
+              icon={<CaretNext />}
+              onClick={this.nextHandler}
+            />
+          </Header>
+          <Box
+            id='routes-calendar-components-calendar-box-1'
+            flex
+            align='center'
+          >
+            <Month />
           </Box>
-          <Button
-            icon={<CaretNext />}
-            onClick={this.nextHandler}
-          />
-        </Header>
-        <Box
-          id='routes-calendar-components-calendar-box-1'
-          flex
-          align='center'
-        >
-          <Month />
         </Box>
-      </Box>
+      </Layer>
     );
   }
 }
@@ -94,6 +107,9 @@ PatientCalendar.propTypes = {
     month: React.PropTypes.number.isRequired,
   }).isRequired,
   patientId: React.PropTypes.number.isRequired,
+  history: React.PropTypes.shape({
+    push: React.PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 function mapStateToProps(state) {
