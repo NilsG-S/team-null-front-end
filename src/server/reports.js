@@ -27,7 +27,7 @@ export function getAllDailyReports() {
 export function getAllMonthlyReports() {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', `${url}reports/daily`);
+    xhr.open('GET', `${url}reports/monthly`);
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
         resolve(JSON.parse(xhr.response));
