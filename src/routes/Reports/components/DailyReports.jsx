@@ -22,7 +22,7 @@ export default class DailyReports extends React.Component {
       let key;
 
       response.forEach((element) => {
-        key = `${element.doctor_name} ${element.patient_count} ${element.total_income}`;
+        key = `Doctor:${element.doctor_name} Patient Count:${element.patient_count} Total Income:${element.total_income}`;
         list.push(key);
         daily.set(key, element);
       });
