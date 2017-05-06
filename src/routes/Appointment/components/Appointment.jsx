@@ -9,7 +9,7 @@ import FormField from 'grommet/components/FormField';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 
-import { setDate } from 'redux/actions.js';
+import { setDate, setDoctorId } from 'redux/actions.js';
 import logger from 'logger/logger.js';
 import * as server from 'server';
 import protectRoute from 'utilities/ProtectRoute.jsx';
@@ -50,6 +50,9 @@ class Appointment extends React.Component {
         hour: 8,
         minute: 0,
       }));
+      this.props.dispatch(setDoctorId(0));
+    } else {
+      this.props.dispatch(setDoctorId(this.appointment.employee_id));
     }
   }
 
