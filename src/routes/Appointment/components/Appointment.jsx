@@ -96,7 +96,7 @@ class Appointment extends React.Component {
         this.props.date.hour,
         this.props.date.minute,
       ),
-      complete: 2,
+      complete: 0,
     })
       .then((app) => {
         logger.info(`Appointment ${app.id} was modified`);
