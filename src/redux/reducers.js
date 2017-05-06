@@ -2,6 +2,7 @@ import {
   UserActionTypes,
   AppointmentActionTypes,
   PatientActionTypes,
+  paymentActionTypes,
   employee,
   defaultDate,
 } from './actions.js';
@@ -92,6 +93,15 @@ function patients(state = new Map(), action) {
   }
 }
 
+function payment(state = {}, action) {
+  switch (action.type) {
+    case paymentActionTypes.CACHE:
+      return action.payment;
+    default:
+      return state;
+  }
+}
+
 function healthApp(state = {}, action) {
   return {
     user: user(state.user, action),
@@ -100,6 +110,7 @@ function healthApp(state = {}, action) {
     doctorId: doctorId(state.doctorId, action),
     patientId: patientId(state.patientId, action),
     patients: patients(state.patients, action),
+    payment: payment(state.payment, action),
   };
 }
 
