@@ -9,6 +9,7 @@ import FormField from 'grommet/components/FormField';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 
+import { cacheAppointments } from 'redux/actions.js';
 import protectRoute from 'utilities/ProtectRoute.jsx';
 import Schedule from 'components/Schedule/Schedule.jsx';
 import PatientCalendar from './PatientCalendar.jsx';
@@ -23,6 +24,7 @@ class Patient extends React.Component {
   }
 
   handleCreate() {
+    this.props.dispatch(cacheAppointments(new Map()));
     this.props.history.push('/appointment');
   }
 
@@ -132,6 +134,7 @@ class Patient extends React.Component {
 }
 
 Patient.propTypes = {
+  dispatch: React.PropTypes.func.isRequired,
   history: React.PropTypes.shape({
     push: React.PropTypes.func.isRequired,
   }).isRequired,
