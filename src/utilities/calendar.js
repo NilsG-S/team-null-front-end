@@ -12,6 +12,30 @@ export const CALENDAR_PATHS = {
   APPOINTMENT_SCHEDULE: '/appointment/schedule',
 };
 
+export function oneFilledAll(appointments, date) {
+  let minutes;
+  let tempDate;
+
+  for (let j = 8; j < 17; j += 1) {
+    for (let k = 0; k < 2; k += 1) {
+      minutes = k * 30;
+      tempDate = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        j,
+        minutes,
+      );
+
+      if (appointments.has(dateToKey(tempDate))) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 export function oneFilled(appointments, date) {
   const current = new Date();
   let minutes;
