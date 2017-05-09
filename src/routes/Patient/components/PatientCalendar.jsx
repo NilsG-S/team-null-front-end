@@ -10,7 +10,7 @@ import CaretNext from 'grommet/components/icons/base/CaretNext';
 import Title from 'grommet/components/Title';
 
 import { setDate, incMonth, decMonth } from 'redux/actions.js';
-import { getUncompAppsByPatient } from 'server';
+import { getAppsByPatient } from 'server';
 import Month from 'components/Month/Month.jsx';
 
 class PatientCalendar extends React.Component {
@@ -31,13 +31,13 @@ class PatientCalendar extends React.Component {
         month: date.getMonth(),
       }));
     } else {
-      getUncompAppsByPatient(this.props.patientId, this.props.date.month);
+      getAppsByPatient(this.props.patientId);
     }
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.date.month !== this.props.date.month) {
-      getUncompAppsByPatient(this.props.patientId, this.props.date.month);
+      getAppsByPatient(this.props.patientId);
     }
   }
 
