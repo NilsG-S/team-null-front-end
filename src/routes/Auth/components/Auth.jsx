@@ -3,30 +3,65 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Box from 'grommet/components/Box';
-import Tabs from 'grommet/components/Tabs';
-import Tab from 'grommet/components/Tab';
+import Form from 'grommet/components/Form';
+import FormField from 'grommet/components/FormField';
+import Footer from 'grommet/components/Footer';
+import Button from 'grommet/components/Button';
 
+import * as server from 'server';
+import logger from 'logger/logger.js';
 import { AuthStates } from 'redux/actions.js';
-import LoginContainer from './LoginContainer.jsx';
 
 class Auth extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0,
+      id: '',
+      password: '',
+      err: '',
     };
 
-    this.handleTabChange = this.handleTabChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleTabChange(newIndex) {
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
     this.setState({
-      index: newIndex,
+      [name]: value,
     });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const id = parseInt(this.state.id, 10);
+
+    server.login(id, this.state.password)
+      .then((user) => {
+        logger.info(`User ${user.id} was logged in`);
+      })
+      .catch((error) => {
+        const message = `Couldn't login: ${error.status}`;
+        logger.error(message);
+        this.setState({
+          err: message,
+        });
+      });
   }
 
   render() {
     let output = null;
+    let errMessage = null;
+
+    if (this.state.err !== '') {
+      errMessage = (
+        <span style={{ color: 'red' }}>{this.state.err}</span>
+      );
+    }
+
     switch (this.props.user.type) {
       case AuthStates.GUEST:
         output = (
@@ -35,16 +70,39 @@ class Auth extends React.Component {
             align='center'
             justify='center'
           >
-            <Tabs
-              activeIndex={this.state.index}
-              justify='center'
-              responsive={false}
-              onActive={this.handleTabChange}
+            <Form
+              pad='medium'
+              plain={false}
+              onSubmit={this.handleSubmit}
             >
-              <Tab title='Login'>
-                <LoginContainer />
-              </Tab>
-            </Tabs>
+              <fieldset>
+                <FormField label='ID'>
+                  <input
+                    name='id'
+                    type='text'
+                    value={this.state.id}
+                    onChange={this.handleInputChange}
+                  />
+                </FormField>
+                <FormField label='Password'>
+                  <input
+                    name='password'
+                    type='password'
+                    value={this.state.password}
+                    onChange={this.handleInputChange}
+                  />
+                </FormField>
+                {errMessage}
+              </fieldset>
+              <Footer size='small'>
+                <Button
+                  label='Login'
+                  type='submit'
+                  primary
+                  onClick={this.handleSubmit}
+                />
+              </Footer>
+            </Form>
           </Box>
         );
 
