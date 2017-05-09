@@ -23,6 +23,7 @@ class Auth extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePayment = this.handlePayment.bind(this);
   }
 
   handleInputChange(event) {
@@ -50,6 +51,10 @@ class Auth extends React.Component {
           err: message,
         });
       });
+  }
+
+  handlePayment() {
+    this.props.history.push('/invoice');
   }
 
   render() {
@@ -94,12 +99,24 @@ class Auth extends React.Component {
                 </FormField>
                 {errMessage}
               </fieldset>
-              <Footer size='small'>
+              <Footer
+                size='small'
+                direction='row'
+                justify='center'
+                pad={{ between: 'small' }}
+                responsive={false}
+              >
                 <Button
                   label='Login'
                   type='submit'
                   primary
                   onClick={this.handleSubmit}
+                />
+                <Button
+                  label='Payment'
+                  type='button'
+                  primary={false}
+                  onClick={this.handlePayment}
                 />
               </Footer>
             </Form>
@@ -132,6 +149,9 @@ class Auth extends React.Component {
 Auth.propTypes = {
   user: React.PropTypes.shape({
     type: React.PropTypes.number.isRequired,
+  }).isRequired,
+  history: React.PropTypes.shape({
+    push: React.PropTypes.func.isRequired,
   }).isRequired,
 };
 
