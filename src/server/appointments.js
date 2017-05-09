@@ -9,7 +9,7 @@ export function modifyApp(id, request) {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(JSON.parse(xhr.response));
+        resolve(xhr.response);
       } else {
         reject({
           status: xhr.status,
