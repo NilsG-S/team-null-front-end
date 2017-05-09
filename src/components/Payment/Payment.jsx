@@ -133,6 +133,28 @@ class Payment extends React.Component {
   }
 
   render() {
+    let cardField;
+
+    switch (this.state.method) {
+      case 'Cash':
+        cardField = null;
+        break;
+      case 'Check':
+        cardField = null;
+        break;
+      default:
+        cardField = (
+          <FormField label='Card Number'>
+            <input
+              name='card_number'
+              type='text'
+              value={this.state.card_number}
+              onChange={this.handleChange}
+            />
+          </FormField>
+        );
+    }
+
     return (
       <Layer
         closer
@@ -173,14 +195,7 @@ class Payment extends React.Component {
                 onChange={this.handleSelectChange}
               />
             </FormField>
-            <FormField label='Card Number'>
-              <input
-                name='card_number'
-                type='text'
-                value={this.state.card_number}
-                onChange={this.handleChange}
-              />
-            </FormField>
+            {cardField}
           </fieldset>
           <Footer
             size='small'
