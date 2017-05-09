@@ -90,6 +90,7 @@ class Schedule extends React.Component {
     const textStyle = {};
     const location = this.props.location.pathname;
     let test;
+    const current = new Date();
 
     switch (location) {
       case CALENDAR_PATHS.PATIENT_SCHEDULE:
@@ -102,7 +103,9 @@ class Schedule extends React.Component {
 
         break;
       case CALENDAR_PATHS.DOCTOR_SCHEDULE:
-        if (this.props.appointments.has(dateToKey(date))) {
+        if (date.getTime() < current.getTime()) {
+          test = false;
+        } else if (this.props.appointments.has(dateToKey(date))) {
           test = true;
         } else {
           test = false;
@@ -111,7 +114,9 @@ class Schedule extends React.Component {
 
         break;
       case CALENDAR_PATHS.APPOINTMENT_SCHEDULE:
-        if (this.props.appointments.has(dateToKey(date))) {
+        if (date.getTime() < current.getTime()) {
+          test = false;
+        } else if (this.props.appointments.has(dateToKey(date))) {
           test = false;
         } else {
           test = true;
@@ -121,11 +126,6 @@ class Schedule extends React.Component {
         break;
       default:
         logger.error(`No such path exists (schedule.jsx): ${location}`);
-    }
-
-    const current = new Date();
-    if (date.getTime() < current.getTime()) {
-      test = false;
     }
 
     if (test) {
