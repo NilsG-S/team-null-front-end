@@ -10,8 +10,10 @@ export function createPatient(patient) {
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
         const newMap = new Map(store.getState().patients);
+        const newPatient = patient;
 
-        newMap.set(patient.id, patient);
+        newPatient.id = xhr.getResponseHeader('Location');
+        newMap.set(patient.id, newPatient);
 
         store.dispatch(cachePatients(newMap));
         resolve();

@@ -14,6 +14,7 @@ import logger from 'logger/logger.js';
 import * as server from 'server';
 import protectRoute from 'utilities/ProtectRoute.jsx';
 import Schedule from 'components/Schedule/Schedule.jsx';
+import Payment from 'components/Payment/Payment.jsx';
 import AppCalendar from './AppCalendar.jsx';
 
 class Appointment extends React.Component {
@@ -35,6 +36,7 @@ class Appointment extends React.Component {
     )));
 
     this.setDate = this.setDate.bind(this);
+    this.handleCopay = this.handleCopay.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -51,6 +53,9 @@ class Appointment extends React.Component {
         minute: 0,
       }));
       this.props.dispatch(setDoctorId(0));
+      this.appointment = {
+        completed: -1,
+      };
     } else {
       this.props.dispatch(setDoctorId(this.appointment.employee_id));
     }
@@ -58,6 +63,19 @@ class Appointment extends React.Component {
 
   setDate() {
     this.props.history.push('/appointment/calendar');
+  }
+
+  handleCopay(event) {
+    event.preventDefault();
+
+    server.getCopayByApp(this.appointment.id)
+      .then(() => {
+        logger.info('Payment retrieved');
+        this.props.history.push('/appointment/payment');
+      })
+      .catch((error) => {
+        logger.error(`Error getting payment: ${error.statusText}`);
+      });
   }
 
   handleCreate(event) {
@@ -96,7 +114,7 @@ class Appointment extends React.Component {
         this.props.date.hour,
         this.props.date.minute,
       ),
-      complete: 0,
+      completed: 0,
     })
       .then((app) => {
         logger.info(`Appointment ${app.id} was modified`);
@@ -109,8 +127,8 @@ class Appointment extends React.Component {
 
   handleDelete() {
     server.deleteApp(this.appointment.id)
-      .then((app) => {
-        logger.info(`Appointment ${app.id} was deleted`);
+      .then(() => {
+        logger.info(`Appointment ${this.appointment.id} was deleted`);
         this.props.history.push('/patients');
       })
       .catch((error) => {
@@ -119,21 +137,48 @@ class Appointment extends React.Component {
   }
 
   render() {
-    let passSubmit = this.handleCreate;
-    let submitLabel = 'Create';
-    let deleteButton = null;
-
-    if (this.appointment !== undefined) {
-      passSubmit = this.handleEdit;
-      submitLabel = 'Modify';
-      deleteButton = (
+    let passSubmit;
+    let submitLabel;
+    let deleteButton;
+    let dateButton = (
+      <Box
+        flex
+        direction='row'
+        justify='center'
+        responsive={false}
+      >
         <Button
-          label={'Delete'}
+          label='Date'
           type='button'
           primary={false}
-          onClick={this.handleDelete}
+          onClick={this.setDate}
         />
-      );
+      </Box>
+    );
+
+    switch (this.appointment.completed) {
+      case -1:
+        passSubmit = this.handleCreate;
+        submitLabel = 'Create';
+        deleteButton = null;
+        break;
+      case 0:
+        passSubmit = this.handleEdit;
+        submitLabel = 'Modify';
+        deleteButton = (
+          <Button
+            label='Delete'
+            type='button'
+            primary={false}
+            onClick={this.handleDelete}
+          />
+        );
+        break;
+      default:
+        passSubmit = this.handleCopay;
+        submitLabel = 'Copay';
+        deleteButton = null;
+        dateButton = null;
     }
 
     return (
@@ -165,19 +210,7 @@ class Appointment extends React.Component {
                 disabled
               />
             </FormField>
-            <Box
-              flex
-              direction='row'
-              justify='center'
-              responsive={false}
-            >
-              <Button
-                label='Date'
-                type='button'
-                primary={false}
-                onClick={this.setDate}
-              />
-            </Box>
+            {dateButton}
             <FormField label='Doctor'>
               <input
                 name='doctor'
@@ -214,6 +247,7 @@ class Appointment extends React.Component {
 
         <Route path='/appointment/calendar' component={AppCalendar} />
         <Route path='/appointment/schedule' component={Schedule} />
+        <Route path='/appointment/payment' component={Payment} />
       </Box>
     );
   }

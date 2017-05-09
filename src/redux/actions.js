@@ -18,6 +18,10 @@ export const PatientActionTypes = {
   CACHE: 'PAT_CACHE',
 };
 
+export const paymentActionTypes = {
+  CACHE: 'PAY_CACHE',
+};
+
 // Register.js uses AuthStates to set the database values for role.
 export const AuthStates = {
   GUEST: 0,
@@ -102,5 +106,12 @@ export function cachePatients(patients) {
   return {
     type: PatientActionTypes.CACHE,
     patients,
+  };
+}
+
+export function cachePayment(payment) {
+  return {
+    type: paymentActionTypes.CACHE,
+    payment,
   };
 }

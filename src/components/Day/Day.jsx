@@ -4,7 +4,12 @@ import { withRouter } from 'react-router-dom';
 
 import logger from 'logger/logger.js';
 import { setDate } from 'redux/actions.js';
-import { oneFree, oneFilled, CALENDAR_PATHS } from 'utilities/calendar.js';
+import {
+  oneFree,
+  oneFilled,
+  oneFilledAll,
+  CALENDAR_PATHS,
+} from 'utilities/calendar.js';
 
 class Day extends React.Component {
   constructor(props) {
@@ -70,7 +75,7 @@ class Day extends React.Component {
 
     switch (location) {
       case CALENDAR_PATHS.PATIENT_CALENDAR:
-        day = oneFilled(this.props.appointments, this.props.date);
+        day = oneFilledAll(this.props.appointments, this.props.date);
         break;
       case CALENDAR_PATHS.DOCTOR_CALENDAR:
         day = oneFilled(this.props.appointments, this.props.date);

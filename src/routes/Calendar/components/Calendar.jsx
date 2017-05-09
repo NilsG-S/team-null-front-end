@@ -26,10 +26,14 @@ class Calendar extends React.Component {
 
   componentWillMount() {
     const date = new Date();
-    this.props.dispatch(setDate({
-      year: date.getFullYear(),
-      month: date.getMonth(),
-    }));
+    if (this.props.date.month === 0) {
+      this.props.dispatch(setDate({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+      }));
+    } else {
+      this.getAppointments();
+    }
   }
 
   componentDidUpdate(prevProps) {

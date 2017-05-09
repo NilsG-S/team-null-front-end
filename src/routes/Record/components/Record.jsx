@@ -8,6 +8,7 @@ import FormField from 'grommet/components/FormField';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 
+import { AuthStates } from 'redux/actions.js';
 import * as server from 'server';
 import protectRoute from 'utilities/ProtectRoute.jsx';
 import logger from 'logger/logger.js';
@@ -73,7 +74,7 @@ class Record extends React.Component {
     event.preventDefault();
     let request;
 
-    if (this.appointment.completed !== 1) {
+    if (this.props.type === AuthStates.DOCTOR) {
       request = Object.assign({}, this.appointment);
       request.completed = 1;
       delete request.id;
@@ -102,6 +103,32 @@ class Record extends React.Component {
   }
 
   render() {
+    let treatmentContent = (
+      <FormField label='Treatment Content'>
+        <textarea
+          name='treatment_content'
+          value={this.state.treatment_content}
+          onChange={this.handleChange}
+          maxLength='50'
+        />
+      </FormField>
+    );
+    let prescription = (
+      <FormField label='Prescription'>
+        <textarea
+          name='prescription'
+          value={this.state.prescription}
+          onChange={this.handleChange}
+          maxLength='50'
+        />
+      </FormField>
+    );
+
+    if (this.props.type === AuthStates.NURSE) {
+      treatmentContent = null;
+      prescription = null;
+    }
+
     return (
       <Box
         flex
@@ -149,22 +176,8 @@ class Record extends React.Component {
                 maxLength='50'
               />
             </FormField>
-            <FormField label='Treatment Content'>
-              <textarea
-                name='treatment_content'
-                value={this.state.treatment_content}
-                onChange={this.handleChange}
-                maxLength='50'
-              />
-            </FormField>
-            <FormField label='Prescription'>
-              <textarea
-                name='prescription'
-                value={this.state.prescription}
-                onChange={this.handleChange}
-                maxLength='50'
-              />
-            </FormField>
+            {treatmentContent}
+            {prescription}
           </fieldset>
           <Footer
             size='small'
@@ -197,6 +210,7 @@ Record.propTypes = {
   appointments: React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
   }).isRequired,
+  type: React.PropTypes.number.isRequired,
 };
 
 const required = {
@@ -211,6 +225,7 @@ function mapStateToProps(state) {
   return {
     date: state.date,
     appointments: state.appointments,
+    type: state.user.type,
   };
 }
 

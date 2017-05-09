@@ -5,3 +5,4 @@ export * from './utils.js';
 export * from './employees.js';
 export * from './patients.js';
 export * from './reports.js';
+export * from './payments.js';
