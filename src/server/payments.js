@@ -58,3 +58,31 @@ export function getPaymentById(id) {
     xhr.send();
   });
 }
+
+export function getCopayByApp(appId) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `${url}payments/appointment/${appId}`);
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const payment = JSON.parse(xhr.response);
+
+        store.dispatch(cachePayment(payment));
+
+        resolve(payment);
+      } else {
+        reject({
+          status: xhr.status,
+          statusText: xhr.statusText,
+        });
+      }
+    };
+    xhr.onerror = () => {
+      reject({
+        status: xhr.status,
+        statusText: xhr.statusText,
+      });
+    };
+    xhr.send();
+  });
+}
